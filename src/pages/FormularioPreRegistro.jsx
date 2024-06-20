@@ -44,34 +44,40 @@ function FormularioPreRegistro() {
         <Grid item xs={12} sm={6} md={8} sx={{ padding: 2, backgroundColor: '#E4EAF0' }}>
           <Typography variant='subtitle1' gutterBottom align='center' sx={{ fontWeight: 500, paddingTop: 12 }}>LLEGAMOS A TU ZONA</Typography>
           <Typography variant='h3' gutterBottom align='center' sx={{ marginBottom: 5, fontWeight: 800 }}>SOLICITA TU FACTIBILIDAD</Typography>
-          <Stepper activeStep={pasoActual} alternativeLabel>
-            {steps.map((label, index) => (
-              <Step key={label}>
-                <StepLabel></StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          <Box sx={{ borderRadius: 10, backgroundColor: '#FFF', padding: 2, marginX: 9, marginY: 5 }}>
-            {pasoActual === 0 && <WelcomeMsg />}
-            {pasoActual === 1 && <PersonalInfo />}
-            {pasoActual === 2 && <LocationForm />}
-            {pasoActual === 3 && <PlansSelector />}
-            {pasoActual === 4 && <MapLocation />}
-            {pasoActual === 5 && <Collections />}
-            {pasoActual === 6 && <GoodbyeMsg />}
-          </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'start', marginX: 9, gap: 2 }}>
-            <Button variant='outlined' onClick={handleAnterior} disabled={pasoActual === 0}>
-              Anterior
-            </Button>
-            {pasoActual === ultimoPaso - 1 ? (
-              <Button variant="contained" color="success" endIcon={<SendIcon />} onClick={handleEnviar}>Enviar</Button>
-            ) : (
-              <Button variant="contained" onClick={handleSiguiente} disabled={pasoActual === ultimoPaso}>
-                Siguiente
+          <Grid container direction='column' justifyItems='space-between' spacing={2}>
+            <Stepper activeStep={pasoActual} alternativeLabel>
+              {steps.map((label, index) => (
+                <Step key={label}>
+                  <StepLabel></StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+          </Grid>
+          <Grid item xs={12}>
+            <Box sx={{ borderRadius: 10, backgroundColor: '#FFF', padding: 2, marginY: 5, mx: { xs: 2, sm: 4, md: 2, lg: 8 }}}>
+              {pasoActual === 0 && <WelcomeMsg />}
+              {pasoActual === 1 && <PersonalInfo />}
+              {pasoActual === 2 && <LocationForm />}
+              {pasoActual === 3 && <PlansSelector />}
+              {pasoActual === 4 && <MapLocation />}
+              {pasoActual === 5 && <Collections />}
+              {pasoActual === 6 && <GoodbyeMsg />}
+            </Box>
+          </Grid>
+          <Grid item xs={12}>
+          </Grid>
+            <Box sx={{ display: 'flex', justifyContent: 'start', marginX: 9, gap: 2 }}>
+              <Button variant='outlined' onClick={handleAnterior} disabled={pasoActual === 0}>
+                Anterior
               </Button>
-            )}
-          </Box>
+              {pasoActual === ultimoPaso - 1 ? (
+                <Button variant="contained" color="success" endIcon={<SendIcon />} onClick={handleEnviar}>Enviar</Button>
+              ) : (
+                <Button variant="contained" onClick={handleSiguiente} disabled={pasoActual === ultimoPaso}>
+                  Siguiente
+                </Button>
+              )}
+            </Box>
         </Grid>
       </Grid>
     </Box>

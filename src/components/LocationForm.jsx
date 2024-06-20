@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { actualizarDatos } from '../features/preRegistro/preRegistroSlice';
 import supabase from '../supabase/config';
+import { Box, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 
 
 function LocationForm() {
@@ -129,88 +130,127 @@ function LocationForm() {
   }, []);
 
   return (
-    <div>
-      <h2>Información Residencial</h2>
-      <div>
-        <label htmlFor="state">Seleccione un Estado:</label>
-        <select id="state" value={selectedState} onChange={(e) => setSelectedState(e.target.value)}>
-          {states.map((state) => (
-            <option key={state.id_state} value={state.id_state}>
-              {state.name_state}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label htmlFor="municipality">Seleccione un Municipio:</label>
-        <select id="municipality" value={municipality} onChange={(e) => setMunicipality(e.target.value)}>
-          {municipalities.map((municipality) => (
-            <option key={municipality.id_municipality} value={municipality.id_municipality}>
-              {municipality.name_municipality}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label htmlFor="parish">Seleccione una Parroquia:</label>
-        <select id="parish" value={parish} onChange={(e) => setParish(e.target.value)}>
-          {parishes.map((parish) => (
-            <option key={parish.id_parish} value={parish.id_parish}>
-              {parish.name_parish}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label htmlFor="neighborhood">Seleccione un Sector:</label>
-        <select id="neighborhood" value={neighborhood} onChange={(e) => setNeighborhood(e.target.value)}>
-          {neighborhoods.map((neighborhood) => (
-            <option key={neighborhood.id_neighborhood} value={neighborhood.id_neighborhood}>
-              {neighborhood.name_neighborhood}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label htmlFor="type_house">Seleccione un Tipo de Residencia:</label>
-        <select id="type_house" value={type_house} onChange={(e) => setType_house(e.target.value)}>
-          {typesHouses.map((type_house) => (
-            <option key={type_house.id_type_house} value={type_house.id_type_house}>
-              {type_house.name_type_house}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label htmlFor="vendor">Seleccione un Vendedor:</label>
-        <select id="vendor" value={vendor} onChange={(e) => setVendor(e.target.value)}>
-          {vendors.map((vendor) => (
-            <option key={vendor.id_vendor} value={vendor.id_vendor}>
-              {vendor.name_vendor}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label htmlFor="address_r">Dirección de Residencia</label>
-        <input
-          type="text"
-          id="address_r"
-          value={address_r}
-          onChange={(e) => setAddress_r(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="address_b">Dirección Fiscal</label>
-        <input
-          type="text"
-          id="address_b"
-          value={address_b}
-          onChange={(e) => setAddress_b(e.target.value)}
-        />
-      </div>
-      {/* <button onClick={handleSiguiente}>Siguiente</button> */}
-    </div>
+    <Box sx={{ padding: 2 }}>
+      <Typography variant='h5' component='h2' guttenBottom sx={{ fontWeight: 500, marginBottom: 2 }}>
+        Información Residencial
+      </Typography>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth> 
+            <InputLabel id="state-label">Seleccione un Estado</InputLabel>
+            <Select
+              labelId="state-label"
+              id="state"
+              value={selectedState}
+              label="Seleccione un Estado"
+              onChange={(e) => setSelectedState(e.target.value)}
+            >
+              {states.map((state) => (
+                <MenuItem key={state.id_state} value={state.id_state}>
+                  {state.name_state}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth> 
+            <InputLabel id="municipality-label">Seleccione un Municipio</InputLabel>
+            <Select
+              labelId="municipality-label"
+              id="municipality"
+              value={municipality}
+              label="Seleccione un Municipio"
+              onChange={(e) => setMunicipality(e.target.value)}
+            >
+              {municipalities.map((municipality) => (
+                <MenuItem key={municipality.id_municipality} value={municipality.id_municipality}>
+                  {municipality.name_municipality}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth> 
+            <InputLabel id="parish-label">Seleccione una Parroquia</InputLabel>
+            <Select
+              labelId="parish-label"
+              id="parish"
+              value={parish}
+              label="Seleccione una Parroquia"
+              onChange={(e) => setParish(e.target.value)}
+            >
+              {parishes.map((parish) => (
+                <MenuItem key={parish.id_parish} value={parish.id_parish}>
+                  {parish.name_parish}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth> 
+            <InputLabel id="neighborhood-label">Seleccione un Sector</InputLabel>
+            <Select
+              labelId="neighborhood-label"
+              id="neighborhood"
+              value={neighborhood}
+              label="Seleccione un Sector"
+              onChange={(e) => setNeighborhood(e.target.value)}
+            >
+              {neighborhoods.map((neighborhood) => (
+                <MenuItem key={neighborhood.id_neighborhood} value={neighborhood.id_neighborhood}>
+                  {neighborhood.name_neighborhood}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth> 
+            <InputLabel id="type_house-label">Seleccione un Tipo de Residencia</InputLabel>
+            <Select
+              labelId="type_house-label"
+              id="type_house"
+              value={type_house}
+              label="Seleccione un Tipo de Residencia"
+              onChange={(e) => setType_house(e.target.value)}
+            >
+              {typesHouses.map((type_house) => (
+                <MenuItem key={type_house.id_type_house} value={type_house.id_type_house}>
+                  {type_house.name_type_house}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth> 
+            <InputLabel id="vendor-label">Seleccione un Vendedor</InputLabel>
+            <Select
+              labelId="vendor-label"
+              id="vendor"
+              value={vendor}
+              label="Seleccione un Vendedor"
+              onChange={(e) => setVendor(e.target.value)}
+            >
+              {vendors.map((vendor) => (
+                <MenuItem key={vendor.id_vendor} value={vendor.id_vendor}>
+                  {vendor.name_vendor}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField fullWidth label='Dirección de Residencia' id="address_r" value={address_r} onChange={(e) => setAddress_r(e.target.value)} />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField fullWidth label='Dirección Fiscal' id="address_b" value={address_b} onChange={(e) => setAddress_b(e.target.value)} />
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 
