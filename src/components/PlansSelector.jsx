@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { actualizarDatos } from '../features/preRegistro/preRegistroSlice';
 import supabase from '../supabase/config';
+import { Box, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Typography } from '@mui/material';
 
 function PlansSelector() {
   const dispatch = useDispatch();
@@ -29,24 +30,29 @@ function PlansSelector() {
   }, [selectedPlan, dispatch]);
 
   return (
-    <div>
-      <h2>Seleccione su Plan Ideal</h2>
-
-      <div>
-        {plans.map((plan) => (
-          <label key={plan.id_plan}>
-            <input
-              type="radio"
-              name="plan"
+    <Box sx={{ padding: 2 }}>
+      <Typography variant="h5" component="h2" gutterBottom>
+        Seleccione su Plan Ideal
+      </Typography>
+      <FormControl component="fieldset" sx={{ width: '100%'}}>
+        <FormLabel component="legend">Planes 'Din</FormLabel>
+        <RadioGroup
+          aria-label="planes"
+          name="plan"
+          value={selectedPlan}
+          onChange={(e) => setSelectedPlan(e.target.value)}
+        >
+          {plans.map((plan) => (
+            <FormControlLabel
+              key={plan.id_plan}
               value={plan.id_plan}
-              checked={selectedPlan === plan.id_plan}
-              onChange={() => setSelectedPlan(plan.id_plan)}
+              control={<Radio />}
+              label={`${plan.name_plan} - $${plan.price}`}
             />
-            {plan.name_plan} - ${plan.price}
-          </label>
-        ))}
-      </div>
-    </div>
+          ))}
+        </RadioGroup>
+      </FormControl>
+    </Box>
   );
 }
 
