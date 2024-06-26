@@ -1,16 +1,23 @@
 import React from 'react';
+import { Box, Typography } from '@mui/material';
 
 function GoodbyeMsg() {
 
   return (
-    <div>
-      <h2>Gracias por Pre-Registrarte en SISPROT</h2>
-      <div>
-        <h3>¡Gracias por preferirnos!</h3>
-        <h3>Esperamos darte la bienvenida pronto a nuestra red de fibra óptica. Juntos, transformaremos la forma en que te conectas con el mundo.</h3>
-        <h3>¡Hasta pronto!</h3>
-      </div>
-    </div>
+    <Box sx={{ padding: 5 }}>
+      <Typography variant='h5' component='h2' gutterBottom>
+        Gracias por Pre-Registrarte en SISPROT
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        ¡Gracias por preferirnos!
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        Esperamos darte la bienvenida pronto a nuestra red de fibra óptica. Juntos, transformaremos la forma en que te conectas con el mundo.
+      </Typography>
+      <Typography variant="body1">
+        ¡Hasta pronto!
+      </Typography>
+    </Box>
   );
 }
 
