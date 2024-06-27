@@ -4,15 +4,15 @@ import { Box, Typography } from '@mui/material';
 function WelcomeMsg() {
   return (
     <Box sx={{ padding: 5 }}>
-      <Typography variant="h5" component="h2" gutterBottom>
+      <Typography variant="h5" component="h2" gutterBottom sx={{ textAlign: 'center' }}>
         Bienvenido a SISPROT
       </Typography>
 
-      <Typography variant="body1" gutterBottom>
+      <Typography variant="body1" gutterBottom sx={{ textAlign: 'left' }}>
         ¡Hola! Gracias por tu interés en nuestro internet de fibra óptica en Turmero.
       </Typography>
 
-      <Typography variant="body1">
+      <Typography variant="body1" sx={{ textAlign: 'left' }}>
         Este pre-registro nos ayudará a conocer tus necesidades y ofrecerte el plan ideal. Mantente atento a nuestras ofertas especiales.
       </Typography>
     </Box>

@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import supabase from '../../supabase/config';
+import axios from 'axios';
 
+// ENVIAR A SUPABASE
 export const enviarDatos = createAsyncThunk('preRegistro/enviarDatos', async (datosFormulario, { dispatch }) => {
   try {
     const datosParaSupabase = {
@@ -16,6 +18,9 @@ export const enviarDatos = createAsyncThunk('preRegistro/enviarDatos', async (da
       tt: datosFormulario.tt || null,
       address_r: datosFormulario.address_r || null,
       address_b: datosFormulario.address_b || null,
+      coordinate: datosFormulario.coordinate || null,
+      latitude: datosFormulario.latitude || null,
+      longitude: datosFormulario.longitude || null,
       id_neighborhood: datosFormulario.neighborhood || null, 
       id_plan: datosFormulario.plan || null,              
       id_type_house: datosFormulario.type_house || null, 
@@ -42,6 +47,62 @@ export const enviarDatos = createAsyncThunk('preRegistro/enviarDatos', async (da
   }
 });
 
+
+
+
+
+
+
+
+
+
+  // // ENVIAR MENSAJES
+  // const PlantillaMensaje = [
+  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
+  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
+  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
+  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
+  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
+  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
+  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
+  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
+  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
+  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
+  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
+  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
+  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
+
+  // ]
+
+  // const PlantillaMensaje = [
+  //   "Hemos recibidos tus datos" + {nombreFulano}
+    
+  // ]
+
+  
+  // const PlantillaMensaje = [
+  //   "El cliente Fulano se registro como prospecto en el formulario y espera por ti"
+    
+  // ]
+
+
+  // axios.post('https://api.ultramsg.com/instance87810/messages/chat', {
+  //   "token":"rzqp54nn0tucqspv",
+  //   "to":"+584243144832",
+  //   "body": PlantillaMensaje
+  // }, {
+  //   headers: {
+  //     "Content-Type": "application/x-www-form-urlencoded"
+  //   }
+  // })
+  // .then(function (response) {
+  //   console.log(response);
+  // })
+  // .catch(function (error) {
+  //   console.log(error);
+  // });
+
+
 export const enviarDatosPyme = createAsyncThunk('preRegistro/enviarDatosPyme', async (datosFormulario, { dispatch }) => {
   try {
     const datosParaSupabasePyme = {
@@ -59,6 +120,9 @@ export const enviarDatosPyme = createAsyncThunk('preRegistro/enviarDatosPyme', a
       business_tt: datosFormulario.business_tt || null,
       business_address_r: datosFormulario.business_address_r || null,
       business_address_b: datosFormulario.business_address_b || null,
+      coordinate: datosFormulario.coordinate || null,
+      latitude: datosFormulario.latitude || null,
+      longitude: datosFormulario.longitude || null,
       id_neighborhood: datosFormulario.neighborhood || null,
       id_plan: datosFormulario.plan || null,
       id_type_house: datosFormulario.type_house || null,
@@ -82,6 +146,58 @@ export const enviarDatosPyme = createAsyncThunk('preRegistro/enviarDatosPyme', a
     throw error
   }
 })
+
+function mensajeTest(state) {
+  return {
+    msg: `Alo ${state.name}`
+  }
+}
+
+export const enviarMensajeTest = createAsyncThunk(
+  "preRegistro/enviarMensajeTest",
+  async (_, { getState }) => {
+    const state = getState()
+    const datosFormulario = state.preRegistro
+
+    const mensaje = mensajeTest(datosFormulario)
+
+    try {
+      const response = await axios.post(
+        'https://api.ultramsg.com/instance87810/messages/chat',
+        {
+          token: 'rzqp54nn0tucqspv',
+          to: `+58${datosFormulario.phone}`,
+          body: mensaje.msg
+        }
+      )
+      console.log('Respuesta:', response.data);
+    } catch (error) {
+      console.error('Error al enviar:', error)
+      throw error
+    }
+  }
+)
+
+
+  // ENVIAR A OZMAP
+  // axios.post('https://sandbox.ozmap.com.br:9994/api/v2/prospects', {
+  //   "tags": [
+  //     "638a088b25360200206c0750"
+  //   ],
+  //   "name": NOMBRE + APELLIDO,
+  //   "coords": [
+  //     LONGITUD,
+  //     LATITUD
+  //   ],
+  //   "address": DIRECCION_FISCAL,
+  //   "observation": NUMERODETELEFONO + NOMBREVENDEDOR
+  // })
+  // .then(function (response) {
+  //   console.log(response);
+  // })
+  // .catch(function (error) {
+  //   console.log(error);
+  // });
 
 const preRegistroSlice = createSlice({
   name: 'prospects',
@@ -119,6 +235,9 @@ const preRegistroSlice = createSlice({
     business_address_r: '',
     business_address_b: '',
     pasoActual: 0,
+    coordinate: '',
+    latitude: '',
+    longitude: '',
     loading: false,
     error: null,
     isPyme: false,
@@ -179,6 +298,9 @@ const preRegistroSlice = createSlice({
         state.type_house = ''
         state.vendor = ''
         state.address_b = ''
+        state.coordinate = ''
+        state.latitude = ''
+        state.longitude = ''
         state.pasoActual = 6;
       })
       .addCase(enviarDatosPyme.fulfilled, (state, action) => {
@@ -201,7 +323,10 @@ const preRegistroSlice = createSlice({
         state.parish = ''
         state.neighborhood = ''
         state.type_house = ''
-        state.vendor = ''
+        state.vendor = ''        
+        state.coordinate = ''
+        state.latitude = ''
+        state.longitude = ''
         state.pasoActual = 6;
       })
       .addCase(enviarDatos.rejected, (state, action) => {
@@ -214,6 +339,8 @@ const preRegistroSlice = createSlice({
       });
   },
 });
+
+// ENVIAR A OZMAP
 
 export const { actualizarDatos, retrocederPaso, enviarDatosCompletado, cambiarTipoCliente, actualizarDatosPyme } = preRegistroSlice.actions;
 export default preRegistroSlice.reducer;

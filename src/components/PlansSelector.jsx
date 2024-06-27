@@ -23,6 +23,7 @@ function PlansSelector({ errors }) {
       if (error) {
         console.error('Error fetching plans:', error);
       } else {
+        console.log('Planes 1:', data);
         setPlans(data);
       }
     };
