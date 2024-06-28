@@ -1,7 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { actualizarDatos, actualizarDatosPyme, cambiarTipoCliente } from '../features/preRegistro/preRegistroSlice';
-import { Box, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, Switch, TextField, Typography } from '@mui/material';
+import { 
+  Box, 
+  FormControl, 
+  FormControlLabel, 
+  Grid, 
+  InputLabel, 
+  MenuItem, 
+  Select, 
+  Switch, 
+  TextField, 
+  Typography 
+} from '@mui/material';
 
 function PersonalInfo({ errors }) {
   const dispatch = useDispatch();
@@ -37,20 +48,67 @@ function PersonalInfo({ errors }) {
   useEffect(() => {
     dispatch(
       actualizarDatos({ 
-        name, last_name, dni, rif, phone, email, gender, fb, ig, tt 
+        name, 
+        last_name, 
+        dni, 
+        rif, 
+        phone, 
+        email, 
+        gender, 
+        fb, 
+        ig, 
+        tt 
       })
     );
-  }, [name, last_name, dni, rif, phone, email, gender, fb, ig, tt, dispatch])
+  }, [
+    name, 
+    last_name, 
+    dni, 
+    rif, 
+    phone, 
+    email, 
+    gender, 
+    fb, 
+    ig, 
+    tt, 
+    dispatch
+  ])
 
   useEffect(() => {
     if (isPyme) {
       dispatch(
         actualizarDatosPyme({ 
-          business_name, business_rif, legal_name, legal_last_name, business_type, legal_dni, legal_rif, business_phone, business_email, business_fb, business_ig, business_tt
+          business_name, 
+          business_rif, 
+          legal_name, 
+          legal_last_name, 
+          business_type, 
+          legal_dni, 
+          legal_rif, 
+          business_phone, 
+          business_email, 
+          business_fb, 
+          business_ig, 
+          business_tt
         })
       );
     }
-  }, [isPyme, business_name, business_rif, legal_name, legal_last_name, business_type, legal_dni, legal_rif, business_phone, business_email, business_fb, business_ig, business_tt, dispatch])
+  }, [
+    isPyme, 
+    business_name, 
+    business_rif, 
+    legal_name, 
+    legal_last_name, 
+    business_type, 
+    legal_dni, 
+    legal_rif, 
+    business_phone, 
+    business_email, 
+    business_fb, 
+    business_ig, 
+    business_tt, 
+    dispatch
+  ])
 
 
   const handleSwitchChange = (event) => {
@@ -59,7 +117,14 @@ function PersonalInfo({ errors }) {
 
   return (
     <Box sx={{ padding: 2}}>
-      <Typography variant='h5' component='h2' guttenBottom sx={{ fontWeight: 500, marginBottom: 2 }}>
+      <Typography 
+        variant='h5' 
+        component='h2' 
+        guttenBottom 
+        sx={{ 
+          fontWeight: 500, 
+          marginBottom: 2
+        }}>
         Información Personal
       </Typography>
       <FormControlLabel
@@ -70,87 +135,254 @@ function PersonalInfo({ errors }) {
       {isPyme ? (
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Nombre de la Empresa o Razón Social' id='business_name' value={business_name} onChange={(e) => setBusiness_name(e.target.value)} error={!!errors.business_name} helperText={errors.business_name} />
+            <TextField 
+              fullWidth 
+              label='Nombre de la Empresa o Razón Social' 
+              id='business_name' 
+              value={business_name} 
+              onChange={(e) => setBusiness_name(e.target.value)} 
+              error={!!errors.business_name} 
+              helperText={errors.business_name} 
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='RIF de la Empresa' id='business_rif' value={business_rif} onChange={(e) => setBusiness_rif(e.target.value)} error={!!errors.business_rif} helperText={errors.business_rif} />
+            <TextField 
+              fullWidth 
+              label='RIF de la Empresa' 
+              id='business_rif' 
+              value={business_rif} 
+              onChange={(e) => setBusiness_rif(e.target.value)} 
+              error={!!errors.business_rif} 
+              helperText={errors.business_rif} 
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
               <InputLabel id="business-type">Tipo de Empresa</InputLabel>
-              <Select labelId="business-type" id="business_type" value={business_type} onChange={(e) => setBusiness_type(e.target.value)} error={!!errors.business_type} helperText={errors.business_type}>
+              <Select
+                labelId="business-type" 
+                id="business_type" 
+                value={business_type} 
+                onChange={(e) => setBusiness_type(e.target.value)} 
+                error={!!errors.business_type} 
+                helperText={errors.business_type}
+              >
                 <MenuItem value='pyme'>PYME</MenuItem>
                 <MenuItem value='corporative'>Corporativa</MenuItem>
-                <MenuItem></MenuItem>
               </Select>
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Nombre Completo del Representante Legal' id='legal_name' value={legal_name} onChange={(e) => setLegal_name(e.target.value)} error={!!errors.legal_name} helperText={errors.legal_name} />
+            <TextField 
+              fullWidth 
+              label='Nombre Completo del Representante Legal' 
+              id='legal_name' 
+              value={legal_name} 
+              onChange={(e) => setLegal_name(e.target.value)} 
+              error={!!errors.legal_name} 
+              helperText={errors.legal_name} 
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Apellido Completo del Representante Legal' id='legal_last_name' value={legal_last_name} onChange={(e) => setLegal_last_name(e.target.value)} error={!!errors.legal_last_name} helperText={errors.legal_last_name} />
+            <TextField 
+              fullWidth 
+              label='Apellido Completo del Representante Legal' 
+              id='legal_last_name' 
+              value={legal_last_name} 
+              onChange={(e) => setLegal_last_name(e.target.value)} 
+              error={!!errors.legal_last_name} 
+              helperText={errors.legal_last_name} 
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Cédula de Identidad del Representante Legal' id="legal_dni" value={legal_dni} type='number' onChange={(e) => setLegal_dni(e.target.value)} error={!!errors.legal_dni} helperText={errors.legal_dni} />
+            <TextField 
+              fullWidth 
+              label='Cédula de Identidad del Representante Legal' 
+              id="legal_dni" 
+              value={legal_dni} type='number' 
+              onChange={(e) => setLegal_dni(e.target.value)} 
+              error={!!errors.legal_dni} 
+              helperText={errors.legal_dni} 
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='RIF del Representante Legal' id="legal_rif" value={legal_rif} onChange={(e) => setLegal_rif(e.target.value)} error={!!errors.legal_rif} helperText={errors.legal_rif} />
+            <TextField 
+              fullWidth 
+              label='RIF del Representante Legal' 
+              id="legal_rif" 
+              value={legal_rif} 
+              onChange={(e) => setLegal_rif(e.target.value)} 
+              error={!!errors.legal_rif} 
+              helperText={errors.legal_rif} 
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Teléfono de Contacto' id="business_phone" value={business_phone} type='number' onChange={(e) => setBusiness_phone(e.target.value)} error={!!errors.business_phone} helperText={errors.business_phone} />
+            <TextField 
+              fullWidth 
+              label='Teléfono de Contacto' 
+              id="business_phone" 
+              value={business_phone} type='number' 
+              onChange={(e) => setBusiness_phone(e.target.value)} 
+              error={!!errors.business_phone} 
+              helperText={errors.business_phone} 
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Email de Contacto' id="business_email" value={business_email} type='email' onChange={(e) => setBusiness_email(e.target.value)} error={!!errors.business_email} helperText={errors.business_email} />
+            <TextField 
+              fullWidth 
+              label='Email de Contacto' 
+              id="business_email" 
+              value={business_email} type='email' 
+              onChange={(e) => setBusiness_email(e.target.value)} 
+              error={!!errors.business_email} 
+              helperText={errors.business_email} />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Facebook Empresarial' id="business_fb" value={business_fb} onChange={(e) => setBusiness_fb(e.target.value)} error={!!errors.business_fb} helperText={errors.business_fb} />
+            <TextField 
+              fullWidth 
+              label='Facebook Empresarial' 
+              id="business_fb" 
+              value={business_fb} 
+              onChange={(e) => setBusiness_fb(e.target.value)} 
+              error={!!errors.business_fb} 
+              helperText={errors.business_fb} 
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Instagram Empresarial' id="business_ig" value={business_ig} onChange={(e) => setBusiness_ig(e.target.value)} error={!!errors.business_ig} helperText={errors.business_ig} />
+            <TextField 
+              fullWidth 
+              label='Instagram Empresarial' 
+              id="business_ig" value={business_ig} 
+              onChange={(e) => setBusiness_ig(e.target.value)} 
+              error={!!errors.business_ig} 
+              helperText={errors.business_ig} 
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='TikTok Empresarial' id="business_tt" value={business_tt} onChange={(e) => setBusiness_tt(e.target.value)} error={!!errors.business_tt} helperText={errors.business_tt} />
+            <TextField 
+              fullWidth 
+              label='TikTok Empresarial' 
+              id="business_tt" 
+              value={business_tt} 
+              onChange={(e) => setBusiness_tt(e.target.value)} 
+              error={!!errors.business_tt} 
+              helperText={errors.business_tt} 
+            />
           </Grid>
         </Grid>
       ) : (
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Nombre Completo' id='name' value={name} onChange={(e) => setName(e.target.value)} error={!!errors.name} helperText={errors.name}/>
+            <TextField 
+              fullWidth 
+              label='Nombre Completo' 
+              id='name' 
+              value={name} 
+              onChange={(e) => setName(e.target.value)} 
+              error={!!errors.name} 
+              helperText={errors.name}
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Apellido Completo' id="last_name" value={last_name} onChange={(e) => setLast_name(e.target.value)} error={!!errors.last_name} helperText={errors.last_name} />
+            <TextField 
+              fullWidth 
+              label='Apellido Completo' 
+              id="last_name" 
+              value={last_name} 
+              onChange={(e) => setLast_name(e.target.value)} 
+              error={!!errors.last_name} 
+              helperText={errors.last_name} 
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Cédula de Identidad' id="dni" value={dni} type='number' onChange={(e) => setDni(e.target.value)} error={!!errors.dni} helperText={errors.dni} />
+            <TextField 
+              fullWidth 
+              label='Cédula de Identidad' 
+              id="dni" 
+              value={dni} 
+              type='number' 
+              onChange={(e) => setDni(e.target.value)} 
+              error={!!errors.dni} 
+              helperText={errors.dni} 
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='RIF Personal' id="rif" value={rif} onChange={(e) => setRif(e.target.value)} error={!!errors.rif} helperText={errors.rif} />
+            <TextField 
+              fullWidth 
+              label='RIF Personal' 
+              id="rif" 
+              value={rif} 
+              onChange={(e) => setRif(e.target.value)} 
+              error={!!errors.rif} 
+              helperText={errors.rif} 
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Teléfono de Contacto' id="phone" value={phone} type='number' onChange={(e) => setPhone(e.target.value)} error={!!errors.phone} helperText={errors.phone} />
+            <TextField 
+              fullWidth 
+              label='Teléfono de Contacto' 
+              id="phone" 
+              value={phone} 
+              type='number' 
+              onChange={(e) => setPhone(e.target.value)} 
+              error={!!errors.phone} 
+              helperText={errors.phone}
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Email' id="email" value={email} type='email' onChange={(e) => setEmail(e.target.value)} error={!!errors.email} helperText={errors.email} />
+            <TextField 
+              fullWidth 
+              label='Email' 
+              id="email" 
+              value={email} 
+              type='email' 
+              onChange={(e) => setEmail(e.target.value)} 
+              error={!!errors.email} 
+              helperText={errors.email} 
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
               <InputLabel id="gender-label">Género</InputLabel>
-              <Select labelId="gender-label" id="gender" value={gender} onChange={(e) => setGender(e.target.value)} error={!!errors.gender} helperText={errors.gender}>
+              <Select 
+                labelId="gender-label" 
+                id="gender" 
+                value={gender} 
+                onChange={(e) => setGender(e.target.value)} 
+                error={!!errors.gender} 
+                helperText={errors.gender}
+              >
                 <MenuItem value='male'>Masculino</MenuItem>
                 <MenuItem value='female'>Femenino</MenuItem>
-                <MenuItem></MenuItem>
               </Select>
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Facebook' id="fb" value={fb} onChange={(e) => setFB(e.target.value)} />
+            <TextField 
+              fullWidth 
+              label='Facebook' 
+              id="fb" 
+              value={fb} 
+              onChange={(e) => setFB(e.target.value)} 
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Instagram' id="ig" value={ig} onChange={(e) => setIG(e.target.value)} />
+            <TextField 
+            fullWidth 
+            label='Instagram' 
+            id="ig" 
+            value={ig} 
+            onChange={(e) => setIG(e.target.value)} 
+          />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='TikTok' id="tt" value={tt} onChange={(e) => setTT(e.target.value)} />
+            <TextField 
+            fullWidth 
+            label='TikTok' 
+            id="tt" 
+            value={tt} 
+            onChange={(e) => setTT(e.target.value)}
+          />
           </Grid>
         </Grid>
       )}

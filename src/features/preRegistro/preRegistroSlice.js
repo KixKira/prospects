@@ -38,7 +38,7 @@ export const enviarDatos = createAsyncThunk('preRegistro/enviarDatos', async (da
       throw error;
     }
     
-    console.log('Datos insertados en Supabase:', data);
+    console.log('Datos insertados en Supabase:', datosFormulario);
     dispatch(enviarDatosCompletado())
     return data;
   } catch (error) {
@@ -46,62 +46,6 @@ export const enviarDatos = createAsyncThunk('preRegistro/enviarDatos', async (da
     throw error;
   }
 });
-
-
-
-
-
-
-
-
-
-
-  // // ENVIAR MENSAJES
-  // const PlantillaMensaje = [
-  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
-  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
-  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
-  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
-  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
-  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
-  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
-  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
-  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
-  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
-  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
-  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
-  //   "Nombre cliente:\r\n\r\n" + {nombreForm} + 
-
-  // ]
-
-  // const PlantillaMensaje = [
-  //   "Hemos recibidos tus datos" + {nombreFulano}
-    
-  // ]
-
-  
-  // const PlantillaMensaje = [
-  //   "El cliente Fulano se registro como prospecto en el formulario y espera por ti"
-    
-  // ]
-
-
-  // axios.post('https://api.ultramsg.com/instance87810/messages/chat', {
-  //   "token":"rzqp54nn0tucqspv",
-  //   "to":"+584243144832",
-  //   "body": PlantillaMensaje
-  // }, {
-  //   headers: {
-  //     "Content-Type": "application/x-www-form-urlencoded"
-  //   }
-  // })
-  // .then(function (response) {
-  //   console.log(response);
-  // })
-  // .catch(function (error) {
-  //   console.log(error);
-  // });
-
 
 export const enviarDatosPyme = createAsyncThunk('preRegistro/enviarDatosPyme', async (datosFormulario, { dispatch }) => {
   try {
@@ -146,58 +90,6 @@ export const enviarDatosPyme = createAsyncThunk('preRegistro/enviarDatosPyme', a
     throw error
   }
 })
-
-function mensajeTest(state) {
-  return {
-    msg: `Alo ${state.name}`
-  }
-}
-
-export const enviarMensajeTest = createAsyncThunk(
-  "preRegistro/enviarMensajeTest",
-  async (_, { getState }) => {
-    const state = getState()
-    const datosFormulario = state.preRegistro
-
-    const mensaje = mensajeTest(datosFormulario)
-
-    try {
-      const response = await axios.post(
-        'https://api.ultramsg.com/instance87810/messages/chat',
-        {
-          token: 'rzqp54nn0tucqspv',
-          to: `+58${datosFormulario.phone}`,
-          body: mensaje.msg
-        }
-      )
-      console.log('Respuesta:', response.data);
-    } catch (error) {
-      console.error('Error al enviar:', error)
-      throw error
-    }
-  }
-)
-
-
-  // ENVIAR A OZMAP
-  // axios.post('https://sandbox.ozmap.com.br:9994/api/v2/prospects', {
-  //   "tags": [
-  //     "638a088b25360200206c0750"
-  //   ],
-  //   "name": NOMBRE + APELLIDO,
-  //   "coords": [
-  //     LONGITUD,
-  //     LATITUD
-  //   ],
-  //   "address": DIRECCION_FISCAL,
-  //   "observation": NUMERODETELEFONO + NOMBREVENDEDOR
-  // })
-  // .then(function (response) {
-  //   console.log(response);
-  // })
-  // .catch(function (error) {
-  //   console.log(error);
-  // });
 
 const preRegistroSlice = createSlice({
   name: 'prospects',
@@ -341,6 +233,21 @@ const preRegistroSlice = createSlice({
 });
 
 // ENVIAR A OZMAP
+export const enviarDatosAOzmap = createAsyncThunk('preRegistro/enviarDatosAOzmap', async (datosFormulario) => {
+  try {
+    const ozmapResponse = await axios.post('https://sisprtoglobalfiber.ozmap.com.br:9994', {
+      nombre: datosFormulario.name,
+      latitud: datosFormulario.latitude,
+      longitud: datosFormulario.longitude,
+      direccion: datosFormulario.address_r
+    })
+    console.log('Respuesta de OZMAP:', ozmapResponse.config.data);
+  } catch (error) {
+    console.error('Error al enviar datos a OZMAP:', error)
+    throw error
+  }
+})
+
 
 export const { actualizarDatos, retrocederPaso, enviarDatosCompletado, cambiarTipoCliente, actualizarDatosPyme } = preRegistroSlice.actions;
 export default preRegistroSlice.reducer;

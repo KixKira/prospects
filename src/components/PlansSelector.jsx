@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { Box, Card, CardContent, FormControl, FormControlLabel, FormHelperText, FormLabel, Radio, RadioGroup, Typography } from '@mui/material';
-
+import { 
+  Box, 
+  Card, 
+  CardContent, 
+  FormControl, 
+  FormControlLabel, 
+  FormHelperText, 
+  FormLabel, 
+  Radio, 
+  RadioGroup, 
+  Typography 
+} from '@mui/material';
 import { actualizarDatos } from '../features/preRegistro/preRegistroSlice';
 import supabase from '../supabase/config';
 
@@ -23,7 +32,6 @@ function PlansSelector({ errors }) {
       if (error) {
         console.error('Error fetching plans:', error);
       } else {
-        console.log('Planes 1:', data);
         setPlans(data);
       }
     };
@@ -54,7 +62,7 @@ function PlansSelector({ errors }) {
           onChange={(e) => setSelectedPlan(e.target.value)}
           sx={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 2fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 2fr))',
             gap: 2
           }}
         >

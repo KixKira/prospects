@@ -2,8 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { actualizarDatos, actualizarDatosPyme } from '../features/preRegistro/preRegistroSlice';
 import supabase from '../supabase/config';
-import { Box, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
-
+import { 
+  Box, 
+  FormControl, 
+  Grid, 
+  InputLabel, 
+  MenuItem, 
+  Select, 
+  TextField, 
+  Typography 
+} from '@mui/material';
 
 function LocationForm({ errors }) {
   const dispatch = useDispatch();
@@ -127,7 +135,15 @@ function LocationForm({ errors }) {
       address_b 
     }));
   }, [
-    selectedState, municipality, parish, neighborhood, type_house, vendor, address_r, address_b, dispatch
+    selectedState, 
+    municipality, 
+    parish, 
+    neighborhood, 
+    type_house, 
+    vendor, 
+    address_r, 
+    address_b, 
+    dispatch
   ]);
   
   useEffect(() => {
@@ -143,7 +159,17 @@ function LocationForm({ errors }) {
         business_address_b 
       }));
     }
-  }, [ isPyme, selectedState, municipality, parish, neighborhood, type_house, vendor, business_address_r, business_address_b, dispatch
+  }, [ 
+    isPyme, 
+    selectedState, 
+    municipality, 
+    parish, 
+    neighborhood, 
+    type_house, 
+    vendor, 
+    business_address_r, 
+    business_address_b, 
+    dispatch
   ]);
 
   useEffect(() => {
@@ -170,7 +196,14 @@ function LocationForm({ errors }) {
 
   return (
     <Box sx={{ padding: 2 }}>
-      <Typography variant='h5' component='h2' guttenBottom sx={{ fontWeight: 500, marginBottom: 2 }}>
+      <Typography 
+        variant='h5' 
+        component='h2' 
+        guttenBottom 
+        sx={{ 
+          fontWeight: 500, 
+          marginBottom: 2 
+        }}>
         Información Residencial
       </Typography>
       {isPyme ? (
@@ -296,10 +329,24 @@ function LocationForm({ errors }) {
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Dirección de Residencia' id="business_address_r" value={business_address_r} onChange={(e) => setBusiness_address_r(e.target.value)} error={!!errors.business_address_r} helperText={errors.business_address_r} />
+            <TextField 
+              fullWidth 
+              label='Dirección de Residencia' 
+              id="business_address_r" 
+              value={business_address_r} 
+              onChange={(e) => setBusiness_address_r(e.target.value)} 
+              error={!!errors.business_address_r} 
+              helperText={errors.business_address_r} 
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Dirección Fiscal' id="business_address_b" value={business_address_b} onChange={(e) => setBusiness_address_b(e.target.value)} />
+            <TextField 
+            fullWidth 
+            label='Dirección Fiscal' 
+            id="business_address_b" 
+            value={business_address_b} 
+            onChange={(e) => setBusiness_address_b(e.target.value)} 
+          />
           </Grid>
         </Grid>
       ) : (
@@ -425,10 +472,24 @@ function LocationForm({ errors }) {
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Dirección de Residencia' id="address_r" value={address_r} onChange={(e) => setAddress_r(e.target.value)} error={!!errors.address_r} helperText={errors.address_r} />
+            <TextField 
+              fullWidth 
+              label='Dirección de Residencia' 
+              id="address_r" 
+              value={address_r} 
+              onChange={(e) => setAddress_r(e.target.value)} 
+              error={!!errors.address_r} 
+              helperText={errors.address_r} 
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Dirección Fiscal' id="address_b" value={address_b} onChange={(e) => setAddress_b(e.target.value)} />
+            <TextField 
+              fullWidth 
+              label='Dirección Fiscal' 
+              id="address_b" 
+              value={address_b} 
+              onChange={(e) => setAddress_b(e.target.value)} 
+            />
           </Grid>
         </Grid>
       )}
