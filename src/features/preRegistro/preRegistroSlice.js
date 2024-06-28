@@ -184,6 +184,7 @@ const preRegistroSlice = createSlice({
         state.ig = ''
         state.tt = ''
         state.address_r = '';
+        state.state = ''
         state.municipality = ''
         state.parish = ''
         state.neighborhood = ''
@@ -211,6 +212,7 @@ const preRegistroSlice = createSlice({
         state.business_tt = '';
         state.business_address_r = '';
         state.business_address_b = '';
+        state.state = ''
         state.municipality = ''
         state.parish = ''
         state.neighborhood = ''
@@ -236,10 +238,12 @@ const preRegistroSlice = createSlice({
 export const enviarDatosAOzmap = createAsyncThunk('preRegistro/enviarDatosAOzmap', async (datosFormulario) => {
   try {
     const ozmapResponse = await axios.post('https://sisprtoglobalfiber.ozmap.com.br:9994', {
-      nombre: datosFormulario.name,
-      latitud: datosFormulario.latitude,
-      longitud: datosFormulario.longitude,
-      direccion: datosFormulario.address_r
+      "name": datosFormulario.name, 
+      "coords": [
+      datosFormulario.longitude,
+      datosFormulario.latitude,
+      ],
+      "address": datosFormulario.address_r
     })
     console.log('Respuesta de OZMAP:', ozmapResponse.config.data);
   } catch (error) {

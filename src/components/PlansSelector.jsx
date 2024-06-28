@@ -49,11 +49,11 @@ function PlansSelector({ errors }) {
 
   return (
     <Box sx={{ padding: 2 }}>
-      <Typography variant="h5" component="h2" gutterBottom>
+      <Typography variant="h5" component="h2" gutterBottom sx={{ fontFamily: 'Montserrat' }}>
         Seleccione su Plan Ideal
       </Typography>
       <FormControl component="fieldset" sx={{ width: '100%'}}>
-        <FormLabel component="legend">{isPyme ? 'Planes PYME' : 'Planes Residenciales'}</FormLabel>
+        <FormLabel component="legend" sx={{ fontFamily: 'Montserrat' }}>{isPyme ? 'Planes PYME' : 'Planes Residenciales'}</FormLabel>
         <FormHelperText error>{errors.plan}</FormHelperText>
         <RadioGroup
           aria-label="planes"

@@ -123,14 +123,15 @@ function PersonalInfo({ errors }) {
         guttenBottom 
         sx={{ 
           fontWeight: 500, 
-          marginBottom: 2
+          marginBottom: 2,
+          fontFamily: 'Montserrat'
         }}>
         Información Personal
       </Typography>
       <FormControlLabel
         control={<Switch checked={isPyme} onChange={handleSwitchChange} />}
         label='Soy cliente PYME'
-        sx={{ marginBottom: 2}}
+        sx={{ marginBottom: 2 }}
       />
       {isPyme ? (
         <Grid container spacing={2}>

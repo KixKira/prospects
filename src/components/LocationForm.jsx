@@ -202,8 +202,10 @@ function LocationForm({ errors }) {
         guttenBottom 
         sx={{ 
           fontWeight: 500, 
-          marginBottom: 2 
-        }}>
+          marginBottom: 2,
+          fontFamily: 'Montserrat'
+        }}
+      >
         Información Residencial
       </Typography>
       {isPyme ? (

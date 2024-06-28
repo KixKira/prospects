@@ -23,13 +23,13 @@ function Collections() {
 
   return (
     <Box sx={{ padding: 2 }}>
-      <Typography variant="h5" component="h2" gutterBottom>
+      <Typography variant="h5" component="h2" gutterBottom sx={{ fontFamily: 'Montserrat' }}>
         Requisitos
       </Typography>
 
       <List>
         {(isPyme ? requisitosPyme : requisitosResidenciales).map((requisito) => (
-          <ListItem key={requisito}>
+          <ListItem key={requisito} >
             <ListItemText primary={requisito} />
           </ListItem>
         ))}

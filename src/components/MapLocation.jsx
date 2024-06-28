@@ -86,7 +86,7 @@ function MapLocation() {
 
   return (
     <Box sx={{ padding: 2 }}>
-      <Typography variant='h5' component='h2' gutterBottom>Geolocalización</Typography>
+      <Typography variant='h5' component='h2' gutterBottom sx={{ fontFamily: 'Montserrat' }}>Geolocalización</Typography>
       {isPyme ? (
         <Box
           className='wrapper'
