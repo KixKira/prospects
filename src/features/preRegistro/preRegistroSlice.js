@@ -31,14 +31,12 @@ export const enviarDatos = createAsyncThunk('preRegistro/enviarDatos', async (da
     const { data, error } = await supabase
     .from('prospects')
     .insert([datosParaSupabase]);
-    console.log(data, error);
     
     if (error) {
       console.error('Error al insertar en Supabase:', error);
       throw error;
     }
     
-    console.log('Datos insertados en Supabase:', datosFormulario);
     dispatch(enviarDatosCompletado())
     return data;
   } catch (error) {
@@ -82,7 +80,6 @@ export const enviarDatosPyme = createAsyncThunk('preRegistro/enviarDatosPyme', a
       throw error;
     }
     
-    console.log('Datos insertados en Supabase Pyme:', data);
     dispatch(enviarDatosCompletado())
     return data
   } catch (error) {
@@ -245,7 +242,6 @@ export const enviarDatosAOzmap = createAsyncThunk('preRegistro/enviarDatosAOzmap
       ],
       "address": datosFormulario.address_r
     })
-    console.log('Respuesta de OZMAP:', ozmapResponse.config.data);
   } catch (error) {
     console.error('Error al enviar datos a OZMAP:', error)
     throw error

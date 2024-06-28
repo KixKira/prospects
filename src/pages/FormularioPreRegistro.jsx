@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import supabase from '../supabase/config';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Alert, Box, Button, Grid, Snackbar, Step, StepLabel, Stepper, Typography } from '@mui/material';
+import { Alert, Box, Button, CircularProgress, Grid, Snackbar, Step, StepLabel, Stepper, Typography } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 
 import WelcomeMsg from '../components/WelcomeMsg';
@@ -27,6 +27,7 @@ function FormularioPreRegistro() {
   const [pasoActual, setPasoActual] = useState(0);
 
   const isPyme = useSelector((state) => state.preRegistro.isPyme)
+  const loading = useSelector(state => state.preRegistro.loading)
   const ultimoPaso = 6
   
   const dispatch = useDispatch()
@@ -334,8 +335,14 @@ function FormularioPreRegistro() {
                 </Button>
               )}
               {pasoActual === ultimoPaso - 1 ? (
-                <Button variant="contained" color="success" endIcon={<SendIcon />} onClick={handleEnviar}>
-                  Enviar
+                <Button 
+                  variant="contained" 
+                  color="success" 
+                  endIcon={loading ? <CircularProgress size={20} color='inherit' /> : <SendIcon />}
+                  onClick={handleEnviar}
+                  disabled={loading}
+                >
+                  {loading ? 'Enviando...' : 'Enviar'}
                 </Button>
               ) : pasoActual === ultimoPaso ? (
                 ''
