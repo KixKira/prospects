@@ -1,6 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Box, Typography, List, ListItem, ListItemText } from "@mui/material";
+import { 
+  Box, 
+  Typography, 
+  List, 
+  ListItem, 
+  ListItemText 
+} from "@mui/material";
 
 function Collections() {
   const isPyme = useSelector((state) => state.preRegistro.isPyme);
@@ -23,13 +29,19 @@ function Collections() {
 
   return (
     <Box sx={{ padding: 2 }}>
-      <Typography variant="h5" component="h2" gutterBottom sx={{ fontFamily: 'Montserrat' }}>
+      <Typography 
+        variant="h5" 
+        component="h2" 
+        gutterBottom 
+        sx={{ 
+          fontFamily: 'Montserrat' 
+        }}
+      >
         Requisitos
       </Typography>
-
       <List>
         {(isPyme ? requisitosPyme : requisitosResidenciales).map((requisito) => (
-          <ListItem key={requisito} >
+          <ListItem key={requisito}>
             <ListItemText primary={requisito} />
           </ListItem>
         ))}

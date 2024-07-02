@@ -33,11 +33,11 @@ function FormularioPreRegistro() {
   const dispatch = useDispatch()
   
   const handleSiguiente = () => {
-    setPasoActual(pasoActual + 1);
-    // if (validateForm()) {
-    // } else {
-    //   console.log('Errores de validacion:', errors);
-    // }
+    if (validateForm()) {
+      setPasoActual(pasoActual + 1);
+    } else {
+      console.log('Errores de validacion:', errors);
+    }
   };
   
   const handleAnterior = () => {
@@ -45,7 +45,7 @@ function FormularioPreRegistro() {
   };
   
   const handleEnviar = async () => {
-    // if (validateForm()) {
+    if (validateForm()) {
       if (isPyme) {
         await dispatch(enviarDatosPyme(datosFormulario))
       } else {
@@ -176,42 +176,42 @@ function FormularioPreRegistro() {
 
       setOpenSnackbar(true)
       setPasoActual(ultimoPaso)
-    // }
+    }
   }
 
-  // const validateForm = () => {
-  //   if (pasoActual === 0) {
-  //     return true
-  //   } 
+  const validateForm = () => {
+    if (pasoActual === 0) {
+      return true
+    } 
 
-  //   if (pasoActual === 3) { 
-  //     if (!datosFormulario.plan) {
-  //       setErrors({ plan: 'Debe seleccionar un plan' });
-  //       return false;
-  //     }
-  //   }
+    if (pasoActual === 3) { 
+      if (!datosFormulario.plan) {
+        setErrors({ plan: 'Debe seleccionar un plan' });
+        return false;
+      }
+    }
 
-  //   try {      
-  //     const schema = isPyme 
-  //       ? (pasoActual === 1 ? personalInfoPymeSchema : pasoActual === 2 ? locationFormPymeSchema : plansSelectorPymeSchema)
-  //       : (pasoActual === 1 ? personalInfoSchema : pasoActual === 2 ? locationFormSchema : plansSelectorSchema)
+    try {      
+      const schema = isPyme 
+        ? (pasoActual === 1 ? personalInfoPymeSchema : pasoActual === 2 ? locationFormPymeSchema : plansSelectorPymeSchema)
+        : (pasoActual === 1 ? personalInfoSchema : pasoActual === 2 ? locationFormSchema : plansSelectorSchema)
 
-  //     schema.parse(datosFormulario)
-  //     setErrors({})
-  //     return true
-  //   } catch (error) {
-  //     if (error instanceof z.ZodError) {
-  //       const newErrors = {}
-  //       error.issues.forEach((issue) => {
-  //         newErrors[issue.path[0]] = issue.message
-  //       })
-  //       setErrors(newErrors)
-  //     } else {
-  //       console.error('Error de validación inesperado:', error)
-  //     }
-  //     return false
-  //   }
-  // }
+      schema.parse(datosFormulario)
+      setErrors({})
+      return true
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const newErrors = {}
+        error.issues.forEach((issue) => {
+          newErrors[issue.path[0]] = issue.message
+        })
+        setErrors(newErrors)
+      } else {
+        console.error('Error de validación inesperado:', error)
+      }
+      return false
+    }
+  }
 
   const handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
