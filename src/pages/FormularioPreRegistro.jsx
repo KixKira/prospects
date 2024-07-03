@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import supabase from '../supabase/config';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Alert, Box, Button, CircularProgress, Grid, Snackbar, Step, StepLabel, Stepper, Typography } from '@mui/material';
+import { Alert, Box, Button, Grid, Snackbar, Step, StepLabel, Stepper, Typography } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 
 import WelcomeMsg from '../components/WelcomeMsg';
@@ -14,7 +14,7 @@ import Collections from '../components/Collections';
 import GoodbyeMsg from '../components/GoodbyeMsg';
 import Logo from '../assets/SGF-Blanco-Aislado.png'
 
-import { enviarDatos, enviarDatosAOzmap, enviarDatosPyme, enviarMensajeTest } from '../features/preRegistro/preRegistroSlice';
+import { enviarDatos, enviarDatosAOzmap, enviarDatosPyme } from '../features/preRegistro/preRegistroSlice';
 
 import { personalInfoSchema, personalInfoPymeSchema, locationFormPymeSchema, locationFormSchema, plansSelectorSchema,plansSelectorPymeSchema } from '../components/schemas'
 
@@ -33,11 +33,11 @@ function FormularioPreRegistro() {
   const dispatch = useDispatch()
   
   const handleSiguiente = () => {
-    setPasoActual(pasoActual + 1);
-    // if (validateForm()) {
-    // } else {
-    //   console.log('Errores de validacion:', errors);
-    // }
+    if (validateForm()) {
+      setPasoActual(pasoActual + 1);
+    } else {
+      console.log('Errores de validacion:', errors);
+    }
   };
   
   const handleAnterior = () => {
@@ -45,173 +45,194 @@ function FormularioPreRegistro() {
   };
   
   const handleEnviar = async () => {
-    // if (validateForm()) {
-      if (isPyme) {
-        await dispatch(enviarDatosPyme(datosFormulario))
-      } else {
-        await dispatch(enviarDatos(datosFormulario))
+    if (validateForm()) {
+      try {
+        if (isPyme) {
+          await dispatch(enviarDatosPyme(datosFormulario))
+        } else {
+          await dispatch(enviarDatos(datosFormulario))
+        }
+  
+        await dispatch(enviarDatosAOzmap(datosFormulario))
+
+        const { data: plans } = await supabase
+        .from('plans')
+        .select('*')
+        .eq('id_plan', datosFormulario.plan);
+  
+        const { data: vendors } = await supabase
+        .from('vendors')
+        .select('*')
+        .eq('id_vendor', datosFormulario.vendor);
+  
+        const { data: municipalities } = await supabase
+        .from('municipalities')
+        .select('*')
+        .eq('id_municipality', datosFormulario.municipality);
+  
+        const { data: parishes } = await supabase
+        .from('parishes')
+        .select('*')
+        .eq('id_parish', datosFormulario.parish);
+  
+        const { data: neighborhoods } = await supabase
+        .from('neighborhoods')
+        .select('*')
+        .eq('id_neighborhood', datosFormulario.neighborhood);
+
+        try {
+          const msgProspect = await axios.post('https://api.ultramsg.com/instance87810/messages/chat', {
+            token: 'rzqp54nn0tucqspv', 
+            to: datosFormulario.phone, 
+            body: '¡Gracias por tu interés en *Sisprot Global Fiber*!' +
+            '\n\n' +
+            'Estimado(a) ' + datosFormulario.name + ' ' + datosFormulario.last_name +
+            '\n\n' +
+            'Recibimos con entusiasmo tu solicitud de información sobre nuestros planes de internet de fibra óptica. Nos alegra saber que estás interesado(a) en el plan ' + plans[0].name_plan + ' ' + plans[0].size + '.' +
+            '\n\n' + 
+            'Un asesor se pondrá en contacto contigo en breve para confirmar tu disponibilidad, validar la cobertura en tu zona y ayudarte a seleccionar el plan que mejor se adapte a tus necesidades.' +
+            '\n\n' +
+            'Mientras tanto, puedes consultar nuestra página web para obtener más información sobre nuestros planes y servicios: https://www.sisprotgf.com/' +
+            '\n\n' +
+            'También puedes seguirnos en nuestras redes sociales:' +
+            '\n\n' + 
+            'Linktr.ee: https://linktr.ee/sisprotgf' + 
+            '\n\n' + 
+            'Agradecemos tu interés en Sisprot Global Fiber. Estamos seguros de que podemos ofrecerte la mejor conexión a internet para tu hogar o negocio.' +
+            '\n\n' +
+            '¡Te atenderemos pronto!' +
+            '\n\n' +
+            'Atentamente,' +
+            '\n\n' +
+            '*El equipo de Sisprot Global Fiber*'
+          });
+
+          console.log('Repuesta de Ultramsg (msgProspect):', msgProspect.data);
+        } catch (error) {
+          console.error('Error al enviar mensaje msgProspect:', error)
+        }
+
+        try {
+          const msgVendor = await axios.post('https://api.ultramsg.com/instance87810/messages/chat', {
+            token: 'rzqp54nn0tucqspv',
+            to: vendors[0].phone, 
+            body: '*Asunto: Nuevo Prospecto Asignado* - ' + datosFormulario.name + ' ' + datosFormulario.last_name +
+            '\n\n' +
+            '*Estimado(a)* ' + vendors[0].name_vendor + ',' +
+            '\n\n' +
+            'Nos complace informarte que se te ha asignado un nuevo prospecto de cliente a continuación te adjuntamos sus datos.' +
+            '\n\n' +
+            '*Información del Prospecto:*' +
+            '\n\n' +
+            '- *Nombre:* ' + datosFormulario.name + ' ' + datosFormulario.last_name +
+            '\n' +
+            '- *Teléfono:* ' + datosFormulario.phone + 
+            '\n' +
+            '- *Correo Electrónico:* ' + datosFormulario.email +
+            '\n' +
+            '- *Dirección:* ' + municipalities[0].name_municipality + ', ' + parishes[0].name_parish + ', ' + neighborhoods[0].name_neighborhood + ', ' + datosFormulario.address_r +
+            '\n' +
+            '- *Plan Seleccionado:* ' + plans[0].name_plan + ' ' + plans[0].size +
+            '\n\n' +
+            'El prospecto ha mostrado interés en nuestro plan ' + plans[0].name_plan + ' y ha solicitado información adicional sobre el servicio.' +
+            '\n\n' +
+            'Te recomendamos que contactes al prospecto lo antes posible para concertar una cita y brindarle la información que necesita.' +
+            '\n\n' +
+            'Estamos seguros de que podrás brindarle al prospecto la atención y el asesoramiento que necesita para convertirse en un cliente satisfecho de *Sisprot Global Fiber*.' +
+            '\n\n' +
+            '¡Éxito en tu gestión!' +
+            '\n\n' +
+            'Atentamente' +
+            '\n\n' +
+            'El equipo de ventas de *Sisprot Global Fiber*'
+          });
+
+          console.log('Repuesta de Ultramsg (msgVendor):', msgVendor.data);
+        } catch (error) {
+          console.error('Error al enviar mensaje msgVendor:', error)
+        }
+
+        try {
+          const msgGroup = await axios.post('https://api.ultramsg.com/instance87810/messages/chat', {
+            token: 'rzqp54nn0tucqspv', 
+            to: datosFormulario.phone, 
+            body: '*Asunto: Nuevo prospecto asignado a:* ' + vendors[0].name_vendor + ' - ' + datosFormulario.name + ' ' + datosFormulario.last_name +
+            '\n\n' +
+            'Estimado equipo de gerencia de ventas,' +
+            '\n\n' +
+            'Nos complace informarles que se ha asignado un nuevo prospecto de cliente al asesor de ventas ' + vendors[0].name_vendor + '.' +
+            '\n\n' +
+            '*Información del Prospecto:*' +
+            '\n\n' +
+            '- *Nombre:* ' + datosFormulario.name + ' ' + datosFormulario.last_name +
+            '\n' +
+            '- *Teléfono:* ' + datosFormulario.phone + 
+            '\n' +
+            '- *Correo Electrónico:* ' + datosFormulario.email +
+            '\n' +
+            '- *Dirección:* ' + municipalities[0].name_municipality + ', ' + parishes[0].name_parish + ', ' + neighborhoods[0].name_neighborhood + ', ' + datosFormulario.address_r +
+            '\n' +
+            '- *Plan Seleccionado:* ' + plans[0].name_plan + ' ' + plans[0].size +
+            '\n\n' +
+            'El prospecto ha mostrado interés en nuestro plan ' + plans[0].name_plan + ' y ha solicitado información adicional sobre el servicio.' +
+            '\n\n' +
+            vendors[0].name_vendor + ' se pondrá en contacto con el prospecto lo antes posible para concertar una cita y brindarle la información que necesita.' +
+            '\n\n' +
+            'Confiamos en la capacidad de ' + datosFormulario.vendor + 'para brindar una atención de calidad al prospecto y convertirlo en un cliente satisfecho de *Sisprot Global Fiber*.' +
+            '\n\n' +
+            'Agradecemos su atención a este aviso.' +
+            '\n\n' +
+            'Atentamente,' +
+            '\n\n' +
+            'El equipo de vendtas de *Sisprot Global Fiber*'
+          });
+
+          console.log('Repuesta de Ultramsg (msgGroup):', msgGroup.data);
+        } catch (error) {
+          console.error('Error al enviar mensaje msgGroup:', error)
+        }
+  
+        setOpenSnackbar(true)
+        setPasoActual(ultimoPaso)
+      } catch (error) {
+        console.error('Error general al enviar:', error)
       }
-
-      await dispatch(enviarDatosAOzmap(datosFormulario))
-
-
-      const { data: plans } = await supabase
-      .from('plans')
-      .select('*')
-      .eq('id_plan', datosFormulario.plan);
-
-      const { data: vendors } = await supabase
-      .from('vendors')
-      .select('*')
-      .eq('id_vendor', datosFormulario.vendor);
-
-      const { data: municipalities } = await supabase
-      .from('municipalities')
-      .select('*')
-      .eq('id_municipality', datosFormulario.municipality);
-
-      const { data: parishes } = await supabase
-      .from('parishes')
-      .select('*')
-      .eq('id_parish', datosFormulario.parish);
-
-      const { data: neighborhoods } = await supabase
-      .from('neighborhoods')
-      .select('*')
-      .eq('id_neighborhood', datosFormulario.neighborhood);
-
-      const msgProspect = await axios.post('https://api.ultramsg.com/instance87810/messages/chat', {
-        token: 'rzqp54nn0tucqspv', 
-        to: datosFormulario.phone, 
-        body: '¡Gracias por tu interés en *Sisprot Global Fiber*!' +
-        '\n\n' +
-        'Estimado(a) ' + datosFormulario.name + ' ' + datosFormulario.last_name +
-        '\n\n' +
-        'Recibimos con entusiasmo tu solicitud de información sobre nuestros planes de internet de fibra óptica. Nos alegra saber que estás interesado(a) en el plan ' + plans[0].name_plan + ' ' + plans[0].size + '.' +
-        '\n\n' + 
-        'Un asesor se pondrá en contacto contigo en breve para confirmar tu disponibilidad, validar la cobertura en tu zona y ayudarte a seleccionar el plan que mejor se adapte a tus necesidades.' +
-        '\n\n' +
-        'Mientras tanto, puedes consultar nuestra página web para obtener más información sobre nuestros planes y servicios: https://www.sisprotgf.com/' +
-        '\n\n' +
-        'También puedes seguirnos en nuestras redes sociales:' +
-        '\n\n' + 
-        'Linktr.ee: https://linktr.ee/sisprotgf' + 
-        '\n\n' + 
-        'Agradecemos tu interés en Sisprot Global Fiber. Estamos seguros de que podemos ofrecerte la mejor conexión a internet para tu hogar o negocio.' +
-        '\n\n' +
-        '¡Te atenderemos pronto!' +
-        '\n\n' +
-        'Atentamente,' +
-        '\n\n' +
-        '*El equipo de Sisprot Global Fiber*'
-      });
-
-      const msgVendor = await axios.post('https://api.ultramsg.com/instance87810/messages/chat', {
-        token: 'rzqp54nn0tucqspv',
-        to: datosFormulario.phone, 
-        body: '*Asunto: Nuevo Prospecto Asignado* - ' + datosFormulario.name + ' ' + datosFormulario.last_name +
-        '\n\n' +
-        '*Estimado(a)* ' + vendors[0].name_vendor + ',' +
-        '\n\n' +
-        'Nos complace informarte que se te ha asignado un nuevo prospecto de cliente a continuación te adjuntamos sus datos.' +
-        '\n\n' +
-        '*Información del Prospecto:*' +
-        '\n\n' +
-        '- *Nombre:* ' + datosFormulario.name + ' ' + datosFormulario.last_name +
-        '\n' +
-        '- *Teléfono:* ' + datosFormulario.phone + 
-        '\n' +
-        '- *Correo Electrónico:* ' + datosFormulario.email +
-        '\n' +
-        '- *Dirección:* ' + municipalities[0].name_municipality + ', ' + parishes[0].name_parish + ', ' + neighborhoods[0].name_neighborhood + ', ' + datosFormulario.address_r +
-        '\n' +
-        '- *Plan Seleccionado:* ' + plans[0].name_plan + ' ' + plans[0].size +
-        '\n\n' +
-        'El prospecto ha mostrado interés en nuestro plan ' + plans[0].name_plan + ' y ha solicitado información adicional sobre el servicio.' +
-        '\n\n' +
-        'Te recomendamos que contactes al prospecto lo antes posible para concertar una cita y brindarle la información que necesita.' +
-        '\n\n' +
-        'Estamos seguros de que podrás brindarle al prospecto la atención y el asesoramiento que necesita para convertirse en un cliente satisfecho de *Sisprot Global Fiber*.' +
-        '\n\n' +
-        '¡Éxito en tu gestión!' +
-        '\n\n' +
-        'Atentamente' +
-        '\n\n' +
-        'El equipo de ventas de *Sisprot Global Fiber*'
-      });
-
-      const msgGroup = await axios.post('https://api.ultramsg.com/instance87810/messages/chat', {
-        token: 'rzqp54nn0tucqspv', 
-        to: datosFormulario.phone, 
-        body: '*Asunto: Nuevo prospecto asignado a:* ' + vendors[0].name_vendor + ' - ' + datosFormulario.name + ' ' + datosFormulario.last_name +
-        '\n\n' +
-        'Estimado equipo de gerencia de ventas,' +
-        '\n\n' +
-        'Nos complace informarles que se ha asignado un nuevo prospecto de cliente al asesor de ventas ' + vendors[0].name_vendor + '.' +
-        '\n\n' +
-        '*Información del Prospecto:*' +
-        '\n\n' +
-        '- *Nombre:* ' + datosFormulario.name + ' ' + datosFormulario.last_name +
-        '\n' +
-        '- *Teléfono:* ' + datosFormulario.phone + 
-        '\n' +
-        '- *Correo Electrónico:* ' + datosFormulario.email +
-        '\n' +
-        '- *Dirección:* ' + municipalities[0].name_municipality + ', ' + parishes[0].name_parish + ', ' + neighborhoods[0].name_neighborhood + ', ' + datosFormulario.address_r +
-        '\n' +
-        '- *Plan Seleccionado:* ' + plans[0].name_plan + ' ' + plans[0].size +
-        '\n\n' +
-        'El prospecto ha mostrado interés en nuestro plan ' + plans[0].name_plan + ' y ha solicitado información adicional sobre el servicio.' +
-        '\n\n' +
-        vendors[0].name_vendor + ' se pondrá en contacto con el prospecto lo antes posible para concertar una cita y brindarle la información que necesita.' +
-        '\n\n' +
-        'Confiamos en la capacidad de ' + datosFormulario.vendor + 'para brindar una atención de calidad al prospecto y convertirlo en un cliente satisfecho de *Sisprot Global Fiber*.' +
-        '\n\n' +
-        'Agradecemos su atención a este aviso.' +
-        '\n\n' +
-        'Atentamente,' +
-        '\n\n' +
-        'El equipo de vendtas de *Sisprot Global Fiber*'
-      });
-
-      setOpenSnackbar(true)
-      setPasoActual(ultimoPaso)
-    // }
+    }
   }
 
-  // const validateForm = () => {
-  //   if (pasoActual === 0) {
-  //     return true
-  //   } 
+  const validateForm = () => {
+    if (pasoActual === 0) {
+      return true
+    } 
 
-  //   if (pasoActual === 3) { 
-  //     if (!datosFormulario.plan) {
-  //       setErrors({ plan: 'Debe seleccionar un plan' });
-  //       return false;
-  //     }
-  //   }
+    if (pasoActual === 3) { 
+      if (!datosFormulario.plan) {
+        setErrors({ plan: 'Debe seleccionar un plan' });
+        return false;
+      }
+    }
 
-  //   try {      
-  //     const schema = isPyme 
-  //       ? (pasoActual === 1 ? personalInfoPymeSchema : pasoActual === 2 ? locationFormPymeSchema : plansSelectorPymeSchema)
-  //       : (pasoActual === 1 ? personalInfoSchema : pasoActual === 2 ? locationFormSchema : plansSelectorSchema)
+    try {      
+      const schema = isPyme 
+        ? (pasoActual === 1 ? personalInfoPymeSchema : pasoActual === 2 ? locationFormPymeSchema : plansSelectorPymeSchema)
+        : (pasoActual === 1 ? personalInfoSchema : pasoActual === 2 ? locationFormSchema : plansSelectorSchema)
 
-  //     schema.parse(datosFormulario)
-  //     setErrors({})
-  //     return true
-  //   } catch (error) {
-  //     if (error instanceof z.ZodError) {
-  //       const newErrors = {}
-  //       error.issues.forEach((issue) => {
-  //         newErrors[issue.path[0]] = issue.message
-  //       })
-  //       setErrors(newErrors)
-  //     } else {
-  //       console.error('Error de validación inesperado:', error)
-  //     }
-  //     return false
-  //   }
-  // }
+      schema.parse(datosFormulario)
+      setErrors({})
+      return true
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const newErrors = {}
+        error.issues.forEach((issue) => {
+          newErrors[issue.path[0]] = issue.message
+        })
+        setErrors(newErrors)
+      } else {
+        console.error('Error de validación inesperado:', error)
+      }
+      return false
+    }
+  }
 
   const handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
@@ -338,11 +359,11 @@ function FormularioPreRegistro() {
                 <Button 
                   variant="contained" 
                   color="success" 
-                  endIcon={loading ? <CircularProgress size={20} color='inherit' /> : <SendIcon />}
+                  endIcon={<SendIcon />}
                   onClick={handleEnviar}
                   disabled={loading}
                 >
-                  {loading ? 'Enviando...' : 'Enviar'}
+                  Enviar
                 </Button>
               ) : pasoActual === ultimoPaso ? (
                 ''
