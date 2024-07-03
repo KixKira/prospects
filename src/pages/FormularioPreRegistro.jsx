@@ -20,6 +20,7 @@ import { personalInfoSchema, personalInfoPymeSchema, locationFormPymeSchema, loc
 
 import { z } from "zod";
 import axios from 'axios';
+import { version } from '../config';
 
 function FormularioPreRegistro() {
   const [errors, setErrors] = useState({})
@@ -364,6 +365,21 @@ function FormularioPreRegistro() {
           ¡Tus datos han sido enviados exitosamente!
         </Alert>
       </Snackbar>
+      <Box
+        component='footer'
+        sx={{
+          backgroundColor: '#F3AF30',
+          color: '#004E74',
+          padding: 2,
+          marginTop: 'auto',
+          width: '100%',
+          textAlign: 'center'
+        }}
+      >
+        <Typography variant='body2' sx={{ fontFamily: 'Montserrat', fontWeight: '500' }}>
+          &copy; 2023 - {new Date().getFullYear()} Sisprot Global Fiber C.A. - ¡La fibra que une a Mariño! - {version}
+        </Typography>
+      </Box>
     </Box>
   );
 }
