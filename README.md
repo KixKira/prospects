@@ -55,13 +55,47 @@ Este proyecto es un formulario de pre-registro para posibles clientes de SISPROT
    ```
 
 ## Estructura del Proyecto
+
 * `components/`: Contiene los componentes individuales del formulario.
 * `features/preRegistro/`: Contiene la lógica de Redux para el formulario.
 * `pages/`: Contiene el componente principal del formulario.
 * `supabase/`: Contiene la configuración de Supabase.
 
+## Nomenclatura de Ramas
+
+Este proyecto utiliza un flujo de trabajo basado en la rama `develop`. Todas las nuevas ramas deben crearse a partir de `develop` y seguir la siguiente nomenclatura:
+
+* **feature/id/nombre-de-la-caracteristica:** Para desarrollar nuevas características.
+* **fix/id/descripcion-del-error:** Para corregir errores.
+* **hotfix/id/descripcion-urgente:** Para correcciones urgentes en producción.
+* **chore/id/descripcion-de-la-tarea:** Para tareas de mantenimiento o limpieza de código.
+
+**Ejemplos:**
+
+* `feature/1/formulario-pre-registro`
+* `fix/2/error-validacion-campos`
+* `hotfix/4/problema-seguridad-critico`
+* `chore/4/actualizar-dependencias`
+
+**Flujo de Trabajo:**
+
+1. Crear una rama desde `develop`.
+2. Realizar los cambios necesarios en la nueva rama.
+3. Hacer commit de los cambios y subirlos a GitHub.
+4. Crear Pull Request desde la nueva rama, hacia `develop`.
+5. Revisar y aprobar el PR.
+6. Fusionar (merge) la nueva rama en `develop`.
+
+**Consideraciones:**
+
+* La rama `master` debe representar siempre el estado de producción de la aplicación.
+* Las ramas `feature`, `fix`, `hotfix` y `chore` son ramas temporales que se eliminan despues de ser fusionadas en `develop`.
+* Es recomendable utilizar mensajes de commit claros y descriptivos.
+
 ## Contribuciones
+
 Las contribuciones son bienvenidas. Por favor, abre un issue o envía un PR.
 
 ## Licencia
+
 Este proyecto está bajo la Licencia MIT.

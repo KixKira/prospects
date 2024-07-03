@@ -46,6 +46,7 @@ function FormularioPreRegistro() {
   
   const handleEnviar = async () => {
     if (validateForm()) {
+
       try {
         if (isPyme) {
           await dispatch(enviarDatosPyme(datosFormulario))
