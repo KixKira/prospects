@@ -200,10 +200,28 @@ function PersonalInfo({ errors }) {
               fullWidth 
               label='Cédula de Identidad del Representante Legal' 
               id="legal_dni" 
-              value={legal_dni} type='number' 
-              onChange={(e) => setLegal_dni(e.target.value)} 
+              value={legal_dni}
+              type='number' 
+              onChange={(e) => {
+                const inputValue = e.target.value
+                if (/^\d{1,8}$/.test(inputValue) || inputValue === '') {
+                  setLegal_dni(inputValue)
+                }
+              }}
               error={!!errors.legal_dni} 
               helperText={errors.legal_dni} 
+              sx={{
+                '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button': {
+                  '-webkit-appearance': 'none',
+                  margin: 0,
+                },
+                '& input[type=number]': {
+                  '-moz-appearance': 'textfield',
+                },
+              }}
+              inputProps={{
+                maxLength: 8
+              }}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -222,10 +240,28 @@ function PersonalInfo({ errors }) {
               fullWidth 
               label='Teléfono de Contacto' 
               id="business_phone" 
-              value={business_phone} type='number' 
-              onChange={(e) => setBusiness_phone(e.target.value)} 
+              value={business_phone}
+              type='number' 
+              onChange={(e) => {
+                const inputValue = e.target.value
+                if (/^\d{1,11}$/.test(inputValue) || inputValue === '') {
+                  setBusiness_phone(inputValue)
+                }
+              }}
               error={!!errors.business_phone} 
               helperText={errors.business_phone} 
+              sx={{
+                '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button': {
+                  '-webkit-appearance': 'none',
+                  margin: 0,
+                },
+                '& input[type=number]': {
+                  '-moz-appearance': 'textfield',
+                },
+              }}
+              inputProps={{
+                maxLength: 11
+              }}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -302,9 +338,26 @@ function PersonalInfo({ errors }) {
               id="dni" 
               value={dni} 
               type='number' 
-              onChange={(e) => setDni(e.target.value)} 
+              onChange={(e) => {
+                const inputValue = e.target.value
+                if (/^\d{1,8}$/.test(inputValue) || inputValue === '') {
+                  setDni(inputValue)
+                }
+              }}
               error={!!errors.dni} 
               helperText={errors.dni} 
+              sx={{
+                '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button': {
+                  '-webkit-appearance': 'none',
+                  margin: 0,
+                },
+                '& input[type=number]': {
+                  '-moz-appearance': 'textfield',
+                },
+              }}
+              inputProps={{
+                maxLength: 8
+              }}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -325,9 +378,26 @@ function PersonalInfo({ errors }) {
               id="phone" 
               value={phone} 
               type='number' 
-              onChange={(e) => setPhone(e.target.value)} 
+              onChange={(e) => {
+                const inputValue = e.target.value
+                if (/^\d{1,11}$/.test(inputValue) || inputValue === '') {
+                  setPhone(inputValue)
+                }
+              }}
               error={!!errors.phone} 
               helperText={errors.phone}
+              sx={{
+                '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button': {
+                  '-webkit-appearance': 'none',
+                  margin: 0,
+                },
+                '& input[type=number]': {
+                  '-moz-appearance': 'textfield',
+                },
+              }}
+              inputProps={{
+                maxLength: 11
+              }}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
