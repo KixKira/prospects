@@ -26,24 +26,26 @@ function LocationForm({ errors }) {
   const [vendor, setVendor] = useState('');
   const [address_r, setAddress_r] = useState('');
   const [address_b, setAddress_b] = useState('');
+  const [other_neighborhood, setOther_neighborhood] = useState(''); 
 
   //BUSINESS STATES
   const [business_address_r, setBusiness_address_r] = useState('')
   const [business_address_b, setBusiness_address_b] = useState('')
+  const [business_other_neighborhood, setBusiness_other_neighborhood] = useState(''); 
+  const [, setShowOtroSector] = useState(false); 
 
   const [states, setStates] = useState([]);
   const [municipalities, setMunicipalities] = useState([]);
   const [parishes, setParishes] = useState([]);
   const [neighborhoods, setNeighborhoods] = useState([]);
   const [typesHouses, setTypesHouses] = useState([]);
-  const [vendors, setVendors] = useState([]);
-  
+  const [vendors, setVendors] = useState([]);  
+
   const isPyme = useSelector((state) => state.preRegistro.isPyme)
 
   useEffect(() => {
     const fetchStates = async () => {
       const stateId = 4
-
       const { data, error } = await supabase
         .from('states')
         .select('*')
@@ -74,7 +76,7 @@ function LocationForm({ errors }) {
 
         if (error) {
           console.error('Error fetching municipalities:', error);
-        }else {
+        } else {
           setMunicipalities([data]);
         }
 
@@ -95,7 +97,6 @@ function LocationForm({ errors }) {
           .eq('id_municipality', municipality); 
 
         if (error) console.error('Error fetching parishes:', error);
-
         else setParishes(data);
       } else {
         setParishes([]);
@@ -123,18 +124,13 @@ function LocationForm({ errors }) {
     
     fetchNeighborhoods();
   }, [parish]);
-  
+
   useEffect(() => {
-    dispatch(actualizarDatos({ 
-      selectedState, 
-      municipality, 
-      parish, 
-      neighborhood, 
-      type_house, 
-      vendor, 
-      address_r, 
-      address_b 
-    }));
+    dispatch(
+      isPyme
+        ? actualizarDatosPyme(obtenerValoresPyme())
+        : actualizarDatos(obtenerValoresResidencial())
+    );
   }, [
     selectedState, 
     municipality, 
@@ -143,36 +139,14 @@ function LocationForm({ errors }) {
     type_house, 
     vendor, 
     address_r, 
-    address_b, 
-    dispatch
+    address_b,
+    other_neighborhood,
+    business_address_r, 
+    business_address_b,
+    business_other_neighborhood,
+    isPyme, dispatch
   ]);
   
-  useEffect(() => {
-    if (isPyme) {
-      dispatch(actualizarDatosPyme({ 
-        selectedState, 
-        municipality, 
-        parish, 
-        neighborhood, 
-        type_house, 
-        vendor, 
-        business_address_r, 
-        business_address_b 
-      }));
-    }
-  }, [ 
-    isPyme, 
-    selectedState, 
-    municipality, 
-    parish, 
-    neighborhood, 
-    type_house, 
-    vendor, 
-    business_address_r, 
-    business_address_b, 
-    dispatch
-  ]);
-
   useEffect(() => {
     const fetchTypesHouses = async () => {
       const { data, error } = await supabase.from('types_houses').select('*');
@@ -194,6 +168,40 @@ function LocationForm({ errors }) {
 
     fetchVendors();
   }, []);
+
+  const obtenerValoresResidencial = () => ({
+    selectedState,
+    municipality,
+    parish,
+    neighborhood,
+    type_house,
+    vendor,
+    address_r,
+    address_b,
+    other_neighborhood
+  });
+
+  const obtenerValoresPyme = () => ({
+    selectedState,
+    municipality,
+    parish,
+    neighborhood,
+    type_house,
+    vendor,
+    business_address_r,
+    business_address_b,
+    business_other_neighborhood, 
+  });
+
+  const handleNeighborhoodChange = (event) => {
+    const selectedValue = event.target.value;
+    setNeighborhood(selectedValue);
+    setShowOtroSector(selectedValue === "otro"); 
+  };
+
+  const handleOtroSectorChange = (e) => {
+    setBusiness_other_neighborhood(e.target.value)
+  }
 
   return (
     <Box sx={{ padding: 2 }}>
@@ -272,16 +280,14 @@ function LocationForm({ errors }) {
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth> 
+            <FormControl fullWidth error={!!errors.neighborhood}> 
               <InputLabel id="neighborhood-label">Seleccione un Sector</InputLabel>
               <Select
                 labelId="neighborhood-label"
                 id="neighborhood"
                 value={neighborhood}
                 label="Seleccione un Sector"
-                onChange={(e) => setNeighborhood(e.target.value)}
-                error={!!errors.neighborhood}
-                helperText={errors.neighborhood}
+                onChange={handleNeighborhoodChange}                
               >
                 {neighborhoods.map((neighborhood) => (
                   <MenuItem key={neighborhood.id_neighborhood} value={neighborhood.id_neighborhood}>
@@ -289,8 +295,20 @@ function LocationForm({ errors }) {
                   </MenuItem>
                 ))}
               </Select>
+              <FormHelperText>{errors.neighborhood}</FormHelperText>
             </FormControl>
           </Grid>
+          {neighborhoods.find((sector) => sector.id_neighborhood === neighborhood)?.name_neighborhood === "Otro" && ( 
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Especifique el sector"
+                id="business_other_neighborhood"
+                value={business_other_neighborhood}
+                onChange={(e) => setBusiness_other_neighborhood(e.target.value)}
+              />
+            </Grid>
+          )}
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth> 
               <InputLabel id="type_house-label">Seleccione un Tipo de Residencia</InputLabel>
@@ -415,16 +433,14 @@ function LocationForm({ errors }) {
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth> 
+            <FormControl fullWidth error={!!errors.neighborhood}> 
               <InputLabel id="neighborhood-label">Seleccione un Sector</InputLabel>
               <Select
                 labelId="neighborhood-label"
                 id="neighborhood"
                 value={neighborhood}
                 label="Seleccione un Sector"
-                onChange={(e) => setNeighborhood(e.target.value)}
-                error={!!errors.neighborhood}
-                helperText={errors.neighborhood}
+                onChange={handleNeighborhoodChange}
               >
                 {neighborhoods.map((neighborhood) => (
                   <MenuItem key={neighborhood.id_neighborhood} value={neighborhood.id_neighborhood}>
@@ -432,8 +448,20 @@ function LocationForm({ errors }) {
                   </MenuItem>
                 ))}
               </Select>
+              <FormHelperText>{errors.neighborhood}</FormHelperText>
             </FormControl>
           </Grid>
+          {neighborhoods.find((sector) => sector.id_neighborhood === neighborhood)?.name_neighborhood === "Otro" && ( 
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Especifique el sector"
+                id="other_neighborhood"
+                value={other_neighborhood}
+                onChange={(e) => setOther_neighborhood(e.target.value)}
+              />
+            </Grid>
+          )}
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth> 
               <InputLabel id="type_house-label">Seleccione un Tipo de Residencia</InputLabel>
