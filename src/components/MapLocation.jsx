@@ -32,7 +32,8 @@ function MapLocation() {
     if (mapRef.current) {
       map.current = new window.google.maps.Map(mapRef.current, {
         center: { lat: 10.227217866820169, lng: -67.47383124855506 },
-        zoom: 17
+        zoom: 17,
+        mapTypeId: window.google.maps.MapTypeId.SATELLITE
       })
 
       const clickListener = map.current.addListener('click', (event) => {
