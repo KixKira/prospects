@@ -18,6 +18,7 @@ export const enviarDatos = createAsyncThunk('preRegistro/enviarDatos', async (da
       tt: datosFormulario.tt || null,
       address_r: datosFormulario.address_r || null,
       address_b: datosFormulario.address_b || null,
+      other_neighborhood: datosFormulario.other_neighborhood || null,
       coordinate: datosFormulario.coordinate || null,
       latitude: datosFormulario.latitude || null,
       longitude: datosFormulario.longitude || null,
@@ -62,6 +63,7 @@ export const enviarDatosPyme = createAsyncThunk('preRegistro/enviarDatosPyme', a
       business_tt: datosFormulario.business_tt || null,
       business_address_r: datosFormulario.business_address_r || null,
       business_address_b: datosFormulario.business_address_b || null,
+      business_other_neighborhood: datosFormulario.business_other_neighborhood || null,
       coordinate: datosFormulario.coordinate || null,
       latitude: datosFormulario.latitude || null,
       longitude: datosFormulario.longitude || null,
@@ -81,6 +83,7 @@ export const enviarDatosPyme = createAsyncThunk('preRegistro/enviarDatosPyme', a
     }
     
     dispatch(enviarDatosCompletado())
+    console.log('Datos insertados en Supabase:', data);
     return data
   } catch (error) {
     console.error('Error:', error);
@@ -106,9 +109,10 @@ const preRegistroSlice = createSlice({
     municipality: '',
     parish: '',
     neighborhood: '',
+    other_neighborhood: '',
     type_house: '',
     vendor: '',
-    address_b: '',    
+    address_b: '',
     business_name: '',
     business_rif: '',
     legal_name: '',
@@ -123,6 +127,7 @@ const preRegistroSlice = createSlice({
     business_tt: '',
     business_address_r: '',
     business_address_b: '',
+    business_other_neighborhood: '',
     pasoActual: 0,
     coordinate: '',
     latitude: '',
@@ -185,6 +190,7 @@ const preRegistroSlice = createSlice({
         state.municipality = ''
         state.parish = ''
         state.neighborhood = ''
+        state.other_neighborhood = ''
         state.type_house = ''
         state.vendor = ''
         state.address_b = ''
@@ -209,6 +215,7 @@ const preRegistroSlice = createSlice({
         state.business_tt = '';
         state.business_address_r = '';
         state.business_address_b = '';
+        state.business_other_neighborhood = '';
         state.state = ''
         state.municipality = ''
         state.parish = ''
