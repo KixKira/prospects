@@ -4,7 +4,10 @@ import { actualizarDatos, actualizarDatosPyme } from '../features/preRegistro/pr
 import supabase from '../supabase/config';
 import { 
   Box, 
+  Checkbox, 
   FormControl, 
+  FormControlLabel, 
+  FormGroup, 
   FormHelperText, 
   Grid, 
   InputLabel, 
@@ -16,6 +19,7 @@ import {
 
 function LocationForm({ errors }) {
   const dispatch = useDispatch();
+  const [direccionFiscalDiferente, setDireccionFiscalDiferente] = useState(false); 
   
   // RESIDENTIAL STATES
   const [selectedState, setSelectedState] = useState('');
@@ -203,6 +207,23 @@ function LocationForm({ errors }) {
     setBusiness_other_neighborhood(e.target.value)
   }
 
+  useEffect(() => {
+    if (!direccionFiscalDiferente && (isPyme ? business_address_r !== business_address_b : address_r !== address_b)) {
+      if (isPyme) {
+        setBusiness_address_b(business_address_r); 
+      } else {
+        setAddress_b(address_r); 
+      }
+    }
+  }, [
+    address_r,
+    business_address_r,
+    address_b,
+    business_address_b,
+    direccionFiscalDiferente,
+    isPyme
+  ])
+
   return (
     <Box sx={{ padding: 2 }}>
       <Typography 
@@ -295,7 +316,6 @@ function LocationForm({ errors }) {
                   </MenuItem>
                 ))}
               </Select>
-              <FormHelperText>{errors.neighborhood}</FormHelperText>
             </FormControl>
           </Grid>
           {neighborhoods.find((sector) => sector.id_neighborhood === neighborhood)?.name_neighborhood === "Otro" && ( 
@@ -362,12 +382,26 @@ function LocationForm({ errors }) {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField 
-            fullWidth 
-            label='Dirección Fiscal' 
-            id="business_address_b" 
-            value={business_address_b} 
-            onChange={(e) => setBusiness_address_b(e.target.value)} 
-          />
+              fullWidth 
+              label='Dirección Fiscal' 
+              id="business_address_b" 
+              value={business_address_b} 
+              onChange={(e) => setBusiness_address_b(e.target.value)}
+              disabled={!direccionFiscalDiferente}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={direccionFiscalDiferente}
+                    onChange={(e) => setDireccionFiscalDiferente(e.target.checked)}
+                  />
+                }
+                label='¿Desea agregar una dirección fiscal diferente?'
+              />
+            </FormGroup>
           </Grid>
         </Grid>
       ) : (
@@ -448,7 +482,6 @@ function LocationForm({ errors }) {
                   </MenuItem>
                 ))}
               </Select>
-              <FormHelperText>{errors.neighborhood}</FormHelperText>
             </FormControl>
           </Grid>
           {neighborhoods.find((sector) => sector.id_neighborhood === neighborhood)?.name_neighborhood === "Otro" && ( 
@@ -519,8 +552,22 @@ function LocationForm({ errors }) {
               label='Dirección Fiscal' 
               id="address_b" 
               value={address_b} 
-              onChange={(e) => setAddress_b(e.target.value)} 
+              onChange={(e) => setAddress_b(e.target.value)}
+              disabled={!direccionFiscalDiferente}
             />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={direccionFiscalDiferente}
+                    onChange={(e) => setDireccionFiscalDiferente(e.target.checked)}
+                  />
+                }
+                label='¿Desea agregar una dirección fiscal diferente?'
+              />
+            </FormGroup>
           </Grid>
         </Grid>
       )}
