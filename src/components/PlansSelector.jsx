@@ -26,7 +26,7 @@ function PlansSelector({ errors }) {
     const fetchPlans = async () => {
       const { data, error } = await supabase
         .from('plans')
-        .select('id_plan, name_plan, price')
+        .select('id_plan, name_plan, price, size')
         .eq('client_type_plan', isPyme ? 'business' : 'residential')
 
       if (error) {
@@ -95,6 +95,7 @@ function PlansSelector({ errors }) {
                 >
                   <CardContent>
                     <Typography variant='h6'>{plan.name_plan}</Typography>
+                    <Typography variant='h6'>{plan.size}</Typography>
                   </CardContent>
                   <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
                     ${plan.price}
