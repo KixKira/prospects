@@ -411,11 +411,24 @@ function FormularioPreRegistro() {
           padding: 2,
           marginTop: 'auto',
           width: '100%',
-          textAlign: 'center'
+          textAlign: 'center',
+          px: {
+            xs: 2,
+            sm: 4,
+            md: 6
+          },
+          fontSize: {
+            xs: '0.8rem',
+            sm: '1rem',
+            md: '1.2rem'
+          }
         }}
       >
         <Typography variant='body2' sx={{ fontFamily: 'Montserrat', fontWeight: '500' }}>
-          &copy; 2023 - {new Date().getFullYear()} Sisprot Global Fiber C.A. - ¡La fibra que une a Mariño! - {version}
+          &copy; {new Date().getFullYear()} Sisprot Global Fiber C.A.
+        </Typography>
+        <Typography variant='body2' sx={{ fontFamily: 'Montserrat', fontWeight: '500' }}>
+          ¡La fibra que une a Mariño!
         </Typography>
       </Box>
     </Box>
