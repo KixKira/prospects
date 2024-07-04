@@ -82,8 +82,8 @@ function FormularioPreRegistro() {
         .eq('id_neighborhood', datosFormulario.neighborhood);
 
         try {
-          const msgProspect = await axios.post('https://api.ultramsg.com/instance87810/messages/chat', {
-            token: 'rzqp54nn0tucqspv', 
+          const msgProspect = await axios.post('https://api.ultramsg.com/instance85581/messages/chat', {
+            token: 'glg0hse3x01aut7o', 
             to: datosFormulario.phone, 
             body: '¡Gracias por tu interés en *Sisprot Global Fiber*!' +
             '\n\n' +
@@ -114,8 +114,8 @@ function FormularioPreRegistro() {
         }
 
         try {
-          const msgVendor = await axios.post('https://api.ultramsg.com/instance87810/messages/chat', {
-            token: 'rzqp54nn0tucqspv',
+          const msgVendor = await axios.post('https://api.ultramsg.com/instance85581/messages/chat', {
+            token: 'glg0hse3x01aut7o',
             to: vendors[0].phone, 
             body: '*Asunto: Nuevo Prospecto Asignado* - ' + datosFormulario.name + ' ' + datosFormulario.last_name +
             '\n\n' +
@@ -154,8 +154,8 @@ function FormularioPreRegistro() {
         }
 
         try {
-          const msgGroup = await axios.post('https://api.ultramsg.com/instance87810/messages/chat', {
-            token: 'rzqp54nn0tucqspv', 
+          const msgGroup = await axios.post('https://api.ultramsg.com/instance85581/messages/chat', {
+            token: 'glg0hse3x01aut7o', 
             to: datosFormulario.phone, 
             body: '*Asunto: Nuevo prospecto asignado a:* ' + vendors[0].name_vendor + ' - ' + datosFormulario.name + ' ' + datosFormulario.last_name +
             '\n\n' +
@@ -247,7 +247,14 @@ function FormularioPreRegistro() {
   const steps = ['Bienvenida', 'Información Personal', 'Información Residencial', 'Selección de Plan', 'Ubicación en Mapa', 'Colecciones', 'Despedida'];
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <Box 
+      sx={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        minHeight: '100vh',
+        overflow: 'hidden'
+       }}
+    >
       <Grid container spacing={2} sx={{ flexGrow: 1 }} >
         <Grid 
           item 
@@ -309,7 +316,15 @@ function FormularioPreRegistro() {
             SOLICITA TU FACTIBILIDAD
           </Typography>
           <Grid container direction='column' justifyItems='space-between' spacing={2}>
-            <Stepper activeStep={pasoActual} alternativeLabel>
+            <Stepper 
+              activeStep={pasoActual}
+              alternativeLabel
+              sx={{
+                width: '100%',
+                // maxWidth: 600,
+                marginLeft: 1
+              }}
+            >
               {steps.map((label, index) => (
                 <Step key={label}>
                   <StepLabel></StepLabel>
@@ -348,7 +363,8 @@ function FormularioPreRegistro() {
                 display: 'flex', 
                 justifyContent: 'start', 
                 marginX: 9, 
-                gap: 2 
+                gap: 2,
+                marginBottom: 5
               }}
             >
               {pasoActual !== ultimoPaso && (
