@@ -83,8 +83,8 @@ function FormularioPreRegistro() {
         .eq('id_neighborhood', datosFormulario.neighborhood);
 
         try {
-          const msgProspect = await axios.post('https://api.ultramsg.com/instance85581/messages/chat', {
-            token: 'glg0hse3x01aut7o', 
+          const msgProspect = await axios.post('https://api.ultramsg.com/instance87810/messages/chat', {
+            token: 'rzqp54nn0tucqspv', 
             to: datosFormulario.phone, 
             body: '¡Gracias por tu interés en *Sisprot Global Fiber*!' +
             '\n\n' +
@@ -115,8 +115,8 @@ function FormularioPreRegistro() {
         }
 
         try {
-          const msgVendor = await axios.post('https://api.ultramsg.com/instance85581/messages/chat', {
-            token: 'glg0hse3x01aut7o',
+          const msgVendor = await axios.post('https://api.ultramsg.com/instance87810/messages/chat', {
+            token: 'rzqp54nn0tucqspv',
             to: vendors[0].phone, 
             body: '*Asunto: Nuevo Prospecto Asignado* - ' + datosFormulario.name + ' ' + datosFormulario.last_name +
             '\n\n' +
@@ -155,9 +155,9 @@ function FormularioPreRegistro() {
         }
 
         try {
-          const msgGroup = await axios.post('https://api.ultramsg.com/instance85581/messages/chat', {
-            token: 'glg0hse3x01aut7o', 
-            to: datosFormulario.phone, 
+          const msgGroup = await axios.post('https://api.ultramsg.com/instance87810/messages/chat', {
+            token: 'rzqp54nn0tucqspv', 
+            to: '120363203187033015@g.us', 
             body: '*Asunto: Nuevo prospecto asignado a:* ' + vendors[0].name_vendor + ' - ' + datosFormulario.name + ' ' + datosFormulario.last_name +
             '\n\n' +
             'Estimado equipo de gerencia de ventas,' +

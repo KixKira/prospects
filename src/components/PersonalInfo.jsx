@@ -5,6 +5,7 @@ import {
   Box, 
   FormControl, 
   FormControlLabel, 
+  FormHelperText, 
   Grid, 
   InputLabel, 
   MenuItem, 
@@ -134,6 +135,8 @@ function PersonalInfo({ errors }) {
         sx={{ marginBottom: 2 }}
       />
       {isPyme ? (
+
+        // PYME
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField 
@@ -145,6 +148,7 @@ function PersonalInfo({ errors }) {
               error={!!errors.business_name} 
               helperText={errors.business_name} 
             />
+            <FormHelperText>Ej: Sisprot Global Fiber</FormHelperText>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField 
@@ -154,8 +158,12 @@ function PersonalInfo({ errors }) {
               value={business_rif} 
               onChange={(e) => setBusiness_rif(e.target.value)} 
               error={!!errors.business_rif} 
-              helperText={errors.business_rif} 
+              helperText={errors.business_rif}
+              inputProps={{
+                maxLength: 11
+              }}
             />
+            <FormHelperText>Ej: J12345678-9</FormHelperText>
           </Grid>
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
@@ -172,6 +180,22 @@ function PersonalInfo({ errors }) {
                 <MenuItem value='corporative'>Corporativa</MenuItem>
               </Select>
             </FormControl>
+            <FormHelperText>Elija un tipo de empresa</FormHelperText>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField 
+              fullWidth 
+              label='RIF del Representante Legal' 
+              id="legal_rif" 
+              value={legal_rif} 
+              onChange={(e) => setLegal_rif(e.target.value)} 
+              error={!!errors.legal_rif} 
+              helperText={errors.legal_rif}
+              inputProps={{
+                maxLength: 11
+              }}
+            />
+            <FormHelperText>Ej: V12345678-9</FormHelperText>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField 
@@ -183,6 +207,7 @@ function PersonalInfo({ errors }) {
               error={!!errors.legal_name} 
               helperText={errors.legal_name} 
             />
+            <FormHelperText>Ej: Simón José</FormHelperText>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField 
@@ -194,6 +219,7 @@ function PersonalInfo({ errors }) {
               error={!!errors.legal_last_name} 
               helperText={errors.legal_last_name} 
             />
+            <FormHelperText>Ej: Bolívar Ponte</FormHelperText>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField 
@@ -223,18 +249,8 @@ function PersonalInfo({ errors }) {
                 maxLength: 8
               }}
             />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField 
-              fullWidth 
-              label='RIF del Representante Legal' 
-              id="legal_rif" 
-              value={legal_rif} 
-              onChange={(e) => setLegal_rif(e.target.value)} 
-              error={!!errors.legal_rif} 
-              helperText={errors.legal_rif} 
-            />
-          </Grid>
+            <FormHelperText>Ej: 12345678</FormHelperText>
+          </Grid>          
           <Grid item xs={12} sm={6}>
             <TextField 
               fullWidth 
@@ -263,6 +279,7 @@ function PersonalInfo({ errors }) {
                 maxLength: 11
               }}
             />
+            <FormHelperText>Ej: 04121234567</FormHelperText>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField 
@@ -272,7 +289,9 @@ function PersonalInfo({ errors }) {
               value={business_email} type='email' 
               onChange={(e) => setBusiness_email(e.target.value)} 
               error={!!errors.business_email} 
-              helperText={errors.business_email} />
+              helperText={errors.business_email}
+            />
+            <FormHelperText>Ej: sbolivar@gmail.com</FormHelperText>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField 
@@ -284,6 +303,7 @@ function PersonalInfo({ errors }) {
               error={!!errors.business_fb} 
               helperText={errors.business_fb} 
             />
+            <FormHelperText>Ej: facebook.com/sisprotgf/</FormHelperText>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField 
@@ -294,6 +314,7 @@ function PersonalInfo({ errors }) {
               error={!!errors.business_ig} 
               helperText={errors.business_ig} 
             />
+            <FormHelperText>Ej: instagram.com/Sisprotgf</FormHelperText>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField 
@@ -305,9 +326,13 @@ function PersonalInfo({ errors }) {
               error={!!errors.business_tt} 
               helperText={errors.business_tt} 
             />
+            
+            <FormHelperText>Ej: tiktok.com/@sisprotgf</FormHelperText>
           </Grid>
         </Grid>
       ) : (
+
+        // RESIDENCIAL
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField 
@@ -319,6 +344,7 @@ function PersonalInfo({ errors }) {
               error={!!errors.name} 
               helperText={errors.name}
             />
+            <FormHelperText>Ej: Simón José</FormHelperText>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField 
@@ -330,6 +356,7 @@ function PersonalInfo({ errors }) {
               error={!!errors.last_name} 
               helperText={errors.last_name} 
             />
+            <FormHelperText>Ej: Bolívar Ponte</FormHelperText>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField 
@@ -359,6 +386,7 @@ function PersonalInfo({ errors }) {
                 maxLength: 8
               }}
             />
+            <FormHelperText>Ej: 12345678</FormHelperText>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField 
@@ -368,8 +396,12 @@ function PersonalInfo({ errors }) {
               value={rif} 
               onChange={(e) => setRif(e.target.value)} 
               error={!!errors.rif} 
-              helperText={errors.rif} 
+              helperText={errors.rif}
+              inputProps={{
+                maxLength: 11
+              }}
             />
+            <FormHelperText>Ej: V12345678-9</FormHelperText>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField 
@@ -399,6 +431,7 @@ function PersonalInfo({ errors }) {
                 maxLength: 11
               }}
             />
+            <FormHelperText>Ej: 04121234567</FormHelperText>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField 
@@ -411,6 +444,7 @@ function PersonalInfo({ errors }) {
               error={!!errors.email} 
               helperText={errors.email} 
             />
+            <FormHelperText>Ej: sbolivar@gmail.com</FormHelperText>
           </Grid>
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
@@ -427,6 +461,7 @@ function PersonalInfo({ errors }) {
                 <MenuItem value='female'>Femenino</MenuItem>
               </Select>
             </FormControl>
+            <FormHelperText>Elija un género</FormHelperText>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField 
@@ -436,24 +471,27 @@ function PersonalInfo({ errors }) {
               value={fb} 
               onChange={(e) => setFB(e.target.value)} 
             />
+            <FormHelperText>Ej: facebook.com/sisprotgf/</FormHelperText>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField 
-            fullWidth 
-            label='Instagram' 
-            id="ig" 
-            value={ig} 
-            onChange={(e) => setIG(e.target.value)} 
-          />
+              fullWidth 
+              label='Instagram' 
+              id="ig" 
+              value={ig} 
+              onChange={(e) => setIG(e.target.value)} 
+            />
+            <FormHelperText>Ej: instagram.com/Sisprotgf</FormHelperText>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField 
-            fullWidth 
-            label='TikTok' 
-            id="tt" 
-            value={tt} 
-            onChange={(e) => setTT(e.target.value)}
-          />
+              fullWidth 
+              label='TikTok' 
+              id="tt" 
+              value={tt} 
+              onChange={(e) => setTT(e.target.value)}
+            />
+            <FormHelperText>Ej: tiktok.com/@sisprotgf</FormHelperText>
           </Grid>
         </Grid>
       )}
