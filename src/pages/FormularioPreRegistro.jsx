@@ -26,9 +26,11 @@ function FormularioPreRegistro() {
   const [errors, setErrors] = useState({})
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [pasoActual, setPasoActual] = useState(0);
+  const [enviando, setEnviando] = useState(false)
 
   const isPyme = useSelector((state) => state.preRegistro.isPyme)
   const loading = useSelector(state => state.preRegistro.loading)
+
   const ultimoPaso = 6
   
   const dispatch = useDispatch()
@@ -47,6 +49,7 @@ function FormularioPreRegistro() {
   
   const handleEnviar = async () => {
     if (validateForm()) {
+      setEnviando(true)
 
       try {
         if (isPyme) {
@@ -198,6 +201,8 @@ function FormularioPreRegistro() {
         setPasoActual(ultimoPaso)
       } catch (error) {
         console.error('Error general al enviar:', error)
+      } finally {
+        setEnviando(false)
       }
     }
   }
@@ -379,9 +384,9 @@ function FormularioPreRegistro() {
                   color="success" 
                   endIcon={<SendIcon />}
                   onClick={handleEnviar}
-                  disabled={loading}
+                  disabled={enviando || loading}
                 >
-                  Enviar
+                  {enviando ? 'Enviando...' : 'Enviar'}
                 </Button>
               ) : pasoActual === ultimoPaso ? (
                 ''
